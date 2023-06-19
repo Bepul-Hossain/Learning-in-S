@@ -21,6 +21,7 @@ const connection = mysql.createConnection({
 })
 
 
+//return all data from table
 const getQuery = `SELECT * FROM CUSTOMERS;`
 
 app.get('/', (req, res) => {
@@ -32,21 +33,8 @@ app.get('/', (req, res) => {
       console.log(json);
       res.send(json)
     })
-  // connection.end()
-
 })
 
-
-// connection.connect(function(err) {
-//   if (err) throw err;
-//   console.log("Connected!");
-//   var sql = `INSERT INTO CUSTOMERS(ID, NAME, AGE, ADDRESS, SALARY) VALUES (110, 'Abdullah', 26, "Dhaka", 50000);`
-//   connection.query(sql, function (err, result) {
-//     if (err) throw err;
-//     console.log("1 record inserted");
-//   });
-
-// });
 
 let queryPromise = (params)=>{
   return new Promise((resolve, reject)=>{
@@ -55,9 +43,12 @@ let queryPromise = (params)=>{
          reject(err);
       }
       resolve(result);
-    })
-  })
+    });
+  });
 }
+
+
+//insert one data and return all data from table
 
 app.post('/insertData', (req, res)=>{
   const { NAME, AGE, ADDRESS, SALARY } = req.body;
@@ -68,6 +59,8 @@ app.post('/insertData', (req, res)=>{
   queryPromise(insertQuery)
   .then((result)=>{
     console.log("1st result: ", result);
+    
+    
     return queryPromise(getQuery)
   })
   .then((result)=>{
@@ -79,40 +72,80 @@ app.post('/insertData', (req, res)=>{
   })
 })
 
+//update one row and return updated table
+let myUpdatePromise = (params)=>{
+  return new Promise((resolve, reject)=>{
+    connection.query(params, (err, result)=> {
+      if (err) {
+        reject(err);
+      }
+      resolve(result);
+    });
+  })
+}
 
-// app.post('/insertData', async (req, res) => {
+app.put('/updateData', (req, res)=>{
+  const {ID, SALARY} = req.body;
+  const updateQuery = `UPDATE CUSTOMERS 
+                        SET 
+                          SALARY = ${SALARY}
+                        WHERE 
+                          ID=${ID};`;
 
-//   const { ID, NAME, AGE, ADDRESS, SALARY } = req.body
+  myUpdatePromise(updateQuery)
+  .then((result)=>{
 
-//   console.log(req.body);
-//   const insertQuery = `INSERT INTO CUSTOMERS(ID, NAME, AGE, ADDRESS, SALARY) VALUES (${ID}, '${NAME}', ${AGE}, '${ADDRESS}', ${SALARY});`;
+    console.log("1st updated query : ");
+    console.log({result});
+    return myUpdatePromise(getQuery);
+  })
+  .then((result)=>{
 
-//   queryPromise(insertQuery)
-//     .then((result) => {
-//       console.log("First", { result });
-//       return queryPromise(getQuery)
-//     })
-//     .then(result => {
-//       console.log("Second ", { result });
-//       res.send(result);
-//     })
-//     .catch(err => {
-//       console.log(err);
-//       res.send(err);
-//     });
-// });
+    console.log({result});
+    res.send({result});
+  })
+  .catch((err)=>{
+    res.send(err);
+  })
 
-// function queryPromise(params) {
-//   console.log({params});
-//   return new Promise((resolse, reject) => {
-//     connection.query(params, (err, result) => {
-//       if (err) {
-//         reject(err);
-//       }
-//       resolse(result);
-//     });
-//   })
-// }
+})
+
+
+//Delete one row and return updated table
+let myDeletePromise = (params)=>{
+  return new Promise((resolve, reject)=>{
+    connection.query(params, (err, result)=> {
+      if (err) {
+        reject(err);
+      }
+      resolve(result);
+    });
+  })
+}
+
+app.delete('/deletedId',(req, res)=>{
+  const {ID} = req.body;
+  const deleteQuery = `DELETE FROM CUSTOMERS 
+                        WHERE 
+                          ID=${ID};`;
+
+                          console.log(deleteQuery);
+  myDeletePromise(deleteQuery)
+  .then((result)=>{
+
+    console.log("1st deleted query : ");
+    console.log({result});
+    return myDeletePromise(getQuery);
+  })
+  .then((result)=>{
+
+    console.log({result});
+    res.send({result});
+  })
+  .catch((err)=>{
+    res.send(err);
+  })
+})
 
 app.listen(port, () => {
   console.log(`Example app listening on port http://localhost:${port}`)
