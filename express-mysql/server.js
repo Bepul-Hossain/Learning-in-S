@@ -147,6 +147,74 @@ app.delete('/deletedId',(req, res)=>{
   })
 })
 
+
+//==================================================================================================================
+
+//Used Query and get data. 
+
+app.get('/paramID',(req, res)=>{
+  
+  
+  
+  const { ID } = req.query;
+  const query = `SELECT * FROM CUSTOMERS  WHERE  ID=${ID};`;
+
+  connection.query(query, (err, result)=>{
+    if(err) throw err;
+    if(result.length>0){
+      res.send(result);
+    }else{
+      res.send("Data not found at ID: "+ID)
+    }
+  });
+})
+
+// used Params and get data
+app.get('/:id',(req, res)=>{
+  
+  const { id } = req.params;
+  const query = `SELECT * FROM CUSTOMERS  WHERE  ID=${id};`;
+
+  connection.query(query, (err, result)=>{
+    if(err) throw err;
+    if(result.length>0){
+      res.send(result);
+    }else{
+      res.send("Data not found at ID: "+id)
+    }
+  });
+})
+
+//Used Query Params and update data. 
+
+app.put('/paramID',(req, res)=>{
+
+
+  const { ID, SALARY } = req.query;
+  const query = `UPDATE CUSTOMERS 
+                  SET 
+                    SALARY = ${SALARY}
+                  WHERE 
+                    ID=${ID};`;
+
+  connection.query(query, (err, result)=>{
+    if(err) throw err;
+    const {affectedRows} = result;
+    
+    if(affectedRows>0){
+      connection.query(getQuery, (err, result)=>{
+        if(err) throw err;
+        res.send(result);
+      });
+    }else{
+      res.send("Data not found at ID: "+ID)
+    }
+  });
+})
+
+
+
+
 app.listen(port, () => {
   console.log(`Example app listening on port http://localhost:${port}`)
 })
