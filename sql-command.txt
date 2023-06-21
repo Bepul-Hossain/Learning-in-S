@@ -1,0 +1,7 @@
+SELECT DATABASE sharetrip;
+
+INSERT INTO CUSTOMERS(ID, NAME, AGE, ADDRESS, SALARY) VALUES (120, 'rakib', 30, 'CHittagong', 60000);
+===========================================
+
+INSERT INTO users (name, gender, createdAt, updatedAt)
+VALUES("Nahid", "Male", curdate(), curdate());

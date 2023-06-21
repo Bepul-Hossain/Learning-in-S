@@ -1,4 +1,4 @@
-const { Sequelize } = require('sequelize');
+const { Sequelize, DataTypes } = require('sequelize');
 
 // const sequelize = new Sequelize('mysql::memory:') // Example for sqlite
 // const sequelize = new Sequelize('mysql://root:Bepul@3964@elocalhost:3306/sharetrip')
@@ -17,3 +17,19 @@ sequelize.authenticate()
 .catch(err=>{
     console.log("Error: "+err);
 })
+
+const db = {};
+db.Sequelize = Sequelize;
+db.sequelize = sequelize;
+
+
+db.users = require('./users')(sequelize, DataTypes);
+
+db.sequelize.sync({force: false})
+.then(()=>{
+    console.log("Yes re-sync");
+})
+
+module.exports={
+    db
+}

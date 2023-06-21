@@ -1,6 +1,7 @@
 class Animal {
 
     constructor(name) {
+      console.log("Animal constructor called!");
       this.speed = 0;
       this.name = name;
     }
@@ -8,6 +9,7 @@ class Animal {
     run(speed) {
       this.speed = speed;
       console.log(`${this.name} runs with speed ${this.speed}.`);
+      return this.name;
     }
   
     stop() {
@@ -20,16 +22,18 @@ class Animal {
   class Rabbit extends Animal {
     hide() {
       console.log(`${this.name} hides!`);
+      console.log("hmm", super.run())
+
     }
   
     stop() {
       //Problem: ------------------>>>>>>>>>>console.log(super); // In here super is not found so how super.stop() method found. 
-      super.stop(); // call parent stop
       this.hide(); // and then hide
     }
   }
   
   let rabbit = new Rabbit("White Rabbit");
-  
-  rabbit.run(5); // White Rabbit runs with speed 5.
-  rabbit.stop(); // White Rabbit stands still. White Rabbit hides!
+
+  rabbit.hide(); // White Rabbit stands still. White Rabbit hides!
+
+
