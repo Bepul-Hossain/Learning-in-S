@@ -24,6 +24,11 @@ db.sequelize = sequelize;
 
 
 db.users = require('./users')(sequelize, DataTypes);
+db.posts = require('./posts')(sequelize, DataTypes);
+
+
+db.users.hasOne(db.posts, {foreignKey: 'user_id'}); // default userId
+db.posts.belongsTo(db.users, {foreignKey: 'user_id'});
 
 db.sequelize.sync({force: false})
 .then(()=>{
