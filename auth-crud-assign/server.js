@@ -4,7 +4,7 @@ var bodyParser = require('body-parser')
 const app = express()
 const port = 3000
 
-const db = require('./db/index');
+const db = require('./db/createAuthProfile');
 
 app.use(bodyParser.urlencoded({
   extended: true
