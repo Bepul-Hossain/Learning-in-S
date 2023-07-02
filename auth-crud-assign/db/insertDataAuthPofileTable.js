@@ -25,7 +25,7 @@ const insertDataAuthPofileTable = (req, res)=>{
             '${firstName}',
             '${lastName}',
             '${Age}'
-    );`
+        );`
  
     connection.query(insertAuthAndProfileQuery, (err, result)=>{
       if(err) {
