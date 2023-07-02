@@ -1,26 +1,6 @@
-const programmerOutput = [
-    {
-      name: "Uncle Bobby",
-      linesOfCode: 500
-    },
-    {
-      name: "Suzie Q",
-      linesOfCode: 1500
-    },
-    {
-      name: "Jimmy Gosling",
-      linesOfCode: 150
-    },
-    {
-      name: "Gracie Hopper",
-      linesOfCode: 1000
-    }
-  ];
-  
-  let totalOutput = 0;
-  
-  for (let i = 0; i < programmerOutput.length; i++) {
-    totalOutput += programmerOutput[i].linesOfCode;
+function validEmail(email){
+    const regex = /^[a-z][a-zA-Z0-9_.]*(\.[a-zA-Z][a-zA-Z0-9_.]*)?@[a-z][a-zA-Z-0-9]*\.[a-z]+(\.[a-z]+)?$/;
+    return regex.test(email);
   }
 
-  console.log(totalOutput);
+  console.log(validEmail("epul.cse@@mail.com"))
