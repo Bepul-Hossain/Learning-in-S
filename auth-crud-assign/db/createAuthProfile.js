@@ -16,7 +16,9 @@ const createAuthProfile = (req, res)=>{
      email varchar(255),
      first_name varchar(255),
      last_name varchar(255),
-     Age int,PRIMARY KEY (email)
+     Age int,
+     photo varchar(255),
+     PRIMARY KEY (email)
    );`
 
    connection.query(createAuthAndProfileQuery, (err, result)=>{

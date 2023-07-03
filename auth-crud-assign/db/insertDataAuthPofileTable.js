@@ -19,8 +19,11 @@ let promise = (params)=>  {
 const insertDataAuthPofileTable = (req, res)=>{
 
     const {email, pass, firstName, lastName, Age} = req.body;
-
-    //validation check
+    // console.log(req.body);
+    // console.log("================================");
+    const {path} =req.file;
+    
+   // validation check
     if(!isValidEmail(email)){
       res.send("Please provide valid email");
     }
@@ -61,13 +64,15 @@ const insertDataAuthPofileTable = (req, res)=>{
                       email,
                       first_name,
                       last_name,
-                      Age
+                      Age,
+                      photo
                     )
                     VALUES (
                         '${email}',
                         '${firstName}',
                         '${lastName}',
-                        '${Age}'
+                        '${Age}',
+                        '${path}'
                     )
           ;`
           return promise(insertAuthAndProfileQuery)

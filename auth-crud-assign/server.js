@@ -1,4 +1,7 @@
 const express = require('express')
+
+const {isUploadPhoto} = require('./middleware/multer')
+
 var bodyParser = require('body-parser')
 
 const app = express()
@@ -16,12 +19,12 @@ app.use(bodyParser.json());
 
 
 app.get('/', (req, res) => {
-  res.send('Hello World')
+  res.send('Auth crud assign working')
 })
 
 
 app.post('/createAuthProfile', createAuthProfile);
-app.post('/insertDataAuthPofileTable', insertDataAuthPofileTable);
+app.post('/insertDataAuthPofileTable', isUploadPhoto, insertDataAuthPofileTable);
 
 app.get('/login',login)
 
