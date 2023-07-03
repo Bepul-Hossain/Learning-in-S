@@ -19,10 +19,15 @@ let promise = (params)=>  {
 const insertDataAuthPofileTable = (req, res)=>{
 
     const {email, pass, firstName, lastName, Age} = req.body;
+    console.log({invalidFileType: req.invalidFileType});
+    
+    if(req.invalidFileType) {
+      return res.send("Invalid filetype")
+    }
     // console.log(req.body);
     // console.log("================================");
     const {path} =req.file;
-    
+
    // validation check
     if(!isValidEmail(email)){
       res.send("Please provide valid email");
