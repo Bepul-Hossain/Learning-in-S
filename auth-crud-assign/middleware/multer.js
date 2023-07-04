@@ -13,6 +13,7 @@ const storage = multer.diskStorage({
     }
 })
 
+//Problem 1: multer => upload.single() => two or more file upload problem
 function fileFilter(req, file, cb) {
     console.log("fileFilter");
     console.log(file.mimetype);
