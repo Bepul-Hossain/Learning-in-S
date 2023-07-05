@@ -56,9 +56,9 @@ const insertDataAuthPofileTable = (req, res)=>{
       .then((isEmailExist)=>{
         if(!isEmailExist){
 
-          hashPromise(pass)
+         const finalInsertedRow= hashPromise(pass)
           .then((hashPass)=>{
-                              const insertAuthAndProfileQuery = `
+                              const insertAuthAndProfile = `
                                           INSERT INTO Auth (
                                             email,
                                             pass
@@ -84,18 +84,29 @@ const insertDataAuthPofileTable = (req, res)=>{
                                               '${path}'
                                           )
                                       ;`
-            return promise(insertAuthAndProfileQuery)
+                           const insertedData= promise(insertAuthAndProfile)
+                                .then((result)=>{
+                                  console.log(result);
+                                
+                                  return result;
+                                })
+           
+            return insertedData;
+          })
+          .then((result)=>{
+            return result;
           })
           .catch((err)=>{
             console.log(err);
           })
+          return finalInsertedRow;
         }
         else{
           res.send(email+" email already exist");
         }
       })
       .then((result)=>{
-        res.send(result);
+        res.send({"result": result});
       })
       .catch(e=>{
         res.send(e)
