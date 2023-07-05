@@ -16,6 +16,24 @@ let hashPromise = (pass)=>{
     )
   }
 
+
+let hashCompare = (pass, hash)=>{
+    return (
+        new Promise((resolve, reject)=>{
+            // Load hash from your password DB.
+            bcrypt.compare(pass, hash, function(err, result) {
+                if(err){
+                    reject(err);
+                }
+                // result == true
+                resolve(result)
+            });
+
+        })
+    )
+}
+
 module.exports={
-    hashPromise
+    hashPromise,
+    hashCompare
 }
