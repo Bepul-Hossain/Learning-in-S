@@ -1,5 +1,6 @@
 
-const {connection} = require('../config')
+const {connection} = require('../config');
+const { hashPromise } = require('../helper/hashPass');
 const {isValidEmail, isValidPass, isValidName} = require('../helper/isValidEmail')
 
 
@@ -54,33 +55,40 @@ const insertDataAuthPofileTable = (req, res)=>{
       })
       .then((isEmailExist)=>{
         if(!isEmailExist){
-              const insertAuthAndProfileQuery = `
-                    INSERT INTO Auth (
-                      email,
-                      pass
-                    )
-                    VALUES (
-                        '${email}',
-                        '${pass}'
-                    );
-                
-                    
-                    INSERT INTO Profiles (
-                      email,
-                      first_name,
-                      last_name,
-                      Age,
-                      photo
-                    )
-                    VALUES (
-                        '${email}',
-                        '${firstName}',
-                        '${lastName}',
-                        '${Age}',
-                        '${path}'
-                    )
-          ;`
-          return promise(insertAuthAndProfileQuery)
+
+          hashPromise(pass)
+          .then((hashPass)=>{
+                              const insertAuthAndProfileQuery = `
+                                          INSERT INTO Auth (
+                                            email,
+                                            pass
+                                          )
+                                          VALUES (
+                                              '${email}',
+                                              '${hashPass}'
+                                          );
+                                      
+                                          
+                                          INSERT INTO Profiles (
+                                            email,
+                                            first_name,
+                                            last_name,
+                                            Age,
+                                            photo
+                                          )
+                                          VALUES (
+                                              '${email}',
+                                              '${firstName}',
+                                              '${lastName}',
+                                              '${Age}',
+                                              '${path}'
+                                          )
+                                      ;`
+            return promise(insertAuthAndProfileQuery)
+          })
+          .catch((err)=>{
+            console.log(err);
+          })
         }
         else{
           res.send(email+" email already exist");
