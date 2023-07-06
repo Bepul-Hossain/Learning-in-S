@@ -22,10 +22,12 @@ const isValidAccessToken = (accesstoken, email) => {
                 
                 const { token, expiredDate } = result[0];
                 
-                console.log(token);
-                console.log(accesstoken);
+                const twentyMinutes = 1*60*1000;
+                const diffMinutes = new Date() - expiredDate;
+                
+                // console.log(twentyMinutes, diffMinutes);
 
-                if(accesstoken===token){
+                if(accesstoken===token && twentyMinutes > diffMinutes){
 
                     resolve(true);
                 }
@@ -47,7 +49,7 @@ const login = (req, res)=>{
     .then((flag)=>{
 
         if(flag){
-            res.send({"Loged by auth token ": flag});
+            res.send({"Loged in by auth token ": flag});
         }
         else{
             const {email, pass} = req.body;
@@ -71,20 +73,24 @@ const login = (req, res)=>{
                     .then((result)=>{
                         
                         // save token and current date in database
-                        const query = `UPDATE Auth
-                                        SET token='authToken12345', expiredDate='${currentDateTime()}'
-                                        WHERE email='${email}';`
-
-
-                        connection.query(query,(err, result)=>{
-                            if(err){
-                                res.send(err)
-                            }else{
-                                console.log(result);
-                            }
-                        })
-
-                        res.send({"Login by email and pass ":result})
+                        if(result){
+                            const query = `UPDATE Auth
+                                            SET token='authToken12345', expiredDate='${currentDateTime()}'
+                                            WHERE email='${email}';`
+    
+    
+                            connection.query(query,(err, data)=>{
+                                if(err){
+                                    res.send(err)
+                                }else{
+                                    console.log(data);
+                                    res.send({"Login by email and pass ":result})
+                                }
+                            })
+                        }
+                        else{
+                            res.send({"Login by email and pass ":result})
+                        }
                     })
                 }
             })
