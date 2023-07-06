@@ -5,10 +5,12 @@ const createAuthProfile = (req, res)=>{
   const createAuthAndProfileQuery = `
    DROP TABLE IF EXISTS Auth;
    CREATE TABLE Auth (
-     email varchar(255),
-     pass varchar(255),
-     PRIMARY KEY (email)
-   );
+    email varchar(255) NOT NULL,
+    pass varchar(255) DEFAULT NULL,
+    token varchar(255) DEFAULT NULL,
+    expiredDate TIMESTAMP DEFAULT "2001-07-05 17:03:15",
+    PRIMARY KEY (email)
+  );
 
    
    DROP TABLE IF EXISTS Profiles;
