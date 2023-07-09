@@ -12,6 +12,8 @@ const {insertDataAuthPofileTable} = require('./db/insertDataAuthPofileTable');
 const { login } = require('./db/login');
 
 const {updateProfile} = require('./db/updateProfile')
+const { deleteProfile } = require('./db/deleteProfile')
+const { userProfile } = require('./db/userProfile')
 
 app.use(bodyParser.urlencoded({
   extended: true
@@ -30,6 +32,8 @@ app.post('/insertDataAuthPofileTable', isUploadPhoto, insertDataAuthPofileTable)
 app.get('/login',login)
 
 app.put('/updateProfile/:userId', updateProfile);
+app.delete('/deleteProfile/:userId', deleteProfile);
+app.get('/userProfile/:userId', userProfile);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
