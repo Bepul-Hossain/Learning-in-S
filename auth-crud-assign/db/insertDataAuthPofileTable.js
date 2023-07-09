@@ -70,14 +70,12 @@ const insertDataAuthPofileTable = (req, res)=>{
                                       
                                           
                                           INSERT INTO Profiles (
-                                            email,
                                             first_name,
                                             last_name,
                                             Age,
                                             photo
                                           )
                                           VALUES (
-                                              '${email}',
                                               '${firstName}',
                                               '${lastName}',
                                               '${Age}',

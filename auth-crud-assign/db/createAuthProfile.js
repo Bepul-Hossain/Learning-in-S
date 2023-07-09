@@ -9,18 +9,19 @@ const createAuthProfile = (req, res)=>{
     pass varchar(255) DEFAULT NULL,
     token varchar(255) DEFAULT NULL,
     expiredDate TIMESTAMP DEFAULT "2001-07-05 17:03:15",
-    PRIMARY KEY (email)
+    userId int NOT NULL AUTO_INCREMENT,
+    PRIMARY KEY (userId)
   );
 
    
    DROP TABLE IF EXISTS Profiles;
    CREATE TABLE Profiles (
-     email varchar(255),
+     userId int NOT NULL AUTO_INCREMENT,
      first_name varchar(255),
      last_name varchar(255),
      Age int,
      photo varchar(255),
-     PRIMARY KEY (email)
+     PRIMARY KEY (userId)
    );`
 
    connection.query(createAuthAndProfileQuery, (err, result)=>{
