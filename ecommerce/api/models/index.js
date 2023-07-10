@@ -21,7 +21,8 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-// db.createAuthTable = require('../controllers/auth/createAuthTable');
+
+db.createAuthTable = require('./createAuthTable')(sequelize, DataTypes);
 
 db.sequelize.sync({force: false})
 .then(()=>{
