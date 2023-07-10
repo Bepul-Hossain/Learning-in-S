@@ -17,10 +17,10 @@ app.get('/', (req, res) => {
 })
 
 
-app.post('/signUp', authCtr.signUp);
+app.post('/createAuthTable', authCtr.createAuthTable);
 app.post('/login', authCtr.login);
 
-require('./api/models/index');
+require('./api/db/index');
 
 
 app.listen(port, () => {

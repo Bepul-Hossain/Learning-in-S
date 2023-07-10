@@ -1,4 +1,4 @@
 module.exports={
-   ...require('./signUp'),
+   ...require('./createAuthTable'),
    ...require('./login')
 }
