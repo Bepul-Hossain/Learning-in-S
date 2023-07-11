@@ -3,7 +3,8 @@ const app = express()
 const port = 3001;
 const bodyParser = require('body-parser')
 
-const authCtr = require('./api/controllers/auth/createAuthTable');
+const authCtr = require('./api/controllers/auth/insertData');
+const { createAuthTableCtr } = require('./api/controllers/auth/createAuthTable')
 
 app.use(bodyParser.urlencoded({
     extended: true
@@ -16,8 +17,8 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
-
-app.post('/createAuthTable', authCtr.createAuthTable);
+app.post('/createAuthTable', createAuthTableCtr)
+app.post('/insertData', authCtr.insertData);
 
 
 app.listen(port, () => {

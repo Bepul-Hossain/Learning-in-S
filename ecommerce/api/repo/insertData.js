@@ -1,7 +1,7 @@
 var { db } = require('../models/index');
 
 
-const data = async ()=>{
+const dataSendToRepo = async ()=>{
     const Auth = db.createAuthTable;
     console.log(Auth);
     let data = await Auth.create({name: 'TestNEW', email:'test2@gmail.com', gender:'male'})
@@ -9,5 +9,5 @@ const data = async ()=>{
 }
 
 module.exports = {
-    data
+    dataSendToRepo
 }

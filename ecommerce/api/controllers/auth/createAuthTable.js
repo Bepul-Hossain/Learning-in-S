@@ -1,13 +1,14 @@
-const { data } = require("../../repo/createAuthTable");
+const { createAuthTableService } = require("../../services/createAuthTableService")
 
-var createAuthTable = async (req, res)=>{
 
-    const p = await data();
-    
-    res.status(200).json(p)
+const createAuthTableCtr = async(req, res)=>{
+    //call service
+    const p = await createAuthTableService();
+    // console.log(p);
+    res.send(p)
 }
 
-module.exports = {
-   createAuthTable,
 
+module.exports = {
+    createAuthTableCtr
 }

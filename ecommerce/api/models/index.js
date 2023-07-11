@@ -24,10 +24,6 @@ db.sequelize = sequelize;
 
 db.createAuthTable = require('./createAuthTable')(sequelize, DataTypes);
 
-db.sequelize.sync({force: false})
-.then(()=>{
-    console.log("Yes re-sync");
-})
 
 module.exports={
     db

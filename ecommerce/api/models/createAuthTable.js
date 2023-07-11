@@ -1,4 +1,4 @@
-module.exports = ((sequelize, DataTypes)=>{
+module.exports = (async (sequelize, DataTypes)=>{
     const Auth = sequelize.define("Auth",{
         name: {
             type: DataTypes.STRING,
@@ -16,6 +16,9 @@ module.exports = ((sequelize, DataTypes)=>{
     },{
         timestamps: false
     });
+    
+    await Auth.sync()
+
     return Auth;
 })
 
