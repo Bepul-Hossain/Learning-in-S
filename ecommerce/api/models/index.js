@@ -1,7 +1,8 @@
+const {database, user, password} =  require('../../config');
+
 const { Sequelize, DataTypes } = require('sequelize');
 
-
-const sequelize = new Sequelize('ecommerce', 'root','Bepul@3964',{
+const sequelize = new Sequelize(database, user,password,{
     host: 'localhost',
     dialect:'mysql',
     pool: {max: 5, min: 0, idle: 10000}, //how many connections and from one connection to another connection taking idle time
@@ -29,7 +30,9 @@ db.test= test;
 const insertedData = require('./createAuthTable')(sequelize, DataTypes);
 db.insertedData = insertedData;
 
+db.register = require('./register')(sequelize, DataTypes);
+
 // db.createAuthTable = require('./createAuthTable')(sequelize, DataTypes);
 
 
-module.exports= db
+module.exports = db
