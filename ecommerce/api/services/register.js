@@ -1,14 +1,19 @@
+const { isValidEmail, isValidPass } = require('../helper/validity');
 const { callToRepo } = require('../repo/register') 
 
-const register = async () => {
+const register = async (email, password) => {
     
-    const email = "hello@gmail.com";
-    const password = "test123";
-
-    callToRepo(email, password);
-
-    
-    return 'hello'
+    if(!isValidEmail(email)){
+       
+        return "Provide correct email";
+    }
+    else if(!isValidPass(password)){
+        return "Provide correct password";
+    }
+    else{
+        callToRepo(email, password);
+        return "Call to repo correctly";
+    }
 }
 
 module.exports = {

@@ -1,10 +1,11 @@
 const registerService = require('../../services/register')
 
 const register = async(req, res)=>{
-    registerService.register()
-    
+    const {email, password} = req.body;
 
-    return res.send("register");
+    const p = await registerService.register(email, password);
+ 
+    return res.send({p});
 }
 
 module.exports = {

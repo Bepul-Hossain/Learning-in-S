@@ -30,7 +30,4 @@ db.test= test;
 
 db.register = require('./register')(sequelize, DataTypes);
 
-// db.createAuthTable = require('./createAuthTable')(sequelize, DataTypes);
-
-
 module.exports = db
