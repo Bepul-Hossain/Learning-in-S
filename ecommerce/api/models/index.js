@@ -27,8 +27,6 @@ db.sequelize = sequelize;
 const test = require('./test')(sequelize, DataTypes);
 db.test= test;
 
-const insertedData = require('./createAuthTable')(sequelize, DataTypes);
-db.insertedData = insertedData;
 
 db.register = require('./register')(sequelize, DataTypes);
 
