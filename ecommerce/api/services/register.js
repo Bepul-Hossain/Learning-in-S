@@ -1,10 +1,13 @@
-const db = require('../models/index');
+const { callToRepo } = require('../repo/register') 
 
 const register = async () => {
     
-    console.log(await db.register)
-    const test = await db.register;
-    await test.create({ email: "hello@gmail.com", password: "test123" })
+    const email = "hello@gmail.com";
+    const password = "test123";
+
+    callToRepo(email, password);
+
+    
     return 'hello'
 }
 
