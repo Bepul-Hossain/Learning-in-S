@@ -10,6 +10,6 @@ router.get('/res',(req, res)=>{
 });
 router.use('/bepul', testroutes);
 
-router.use('/register', register);
+router.use('/auth', register);
 
 module.exports = router;

@@ -8,7 +8,7 @@ router.post('/', (req, res)=>{
     return res.send("router called");
     
 });
-router.post('/v1',register)
+router.post('/register',register)
 
 module.exports =  router
 

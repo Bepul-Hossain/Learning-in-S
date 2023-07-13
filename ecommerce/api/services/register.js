@@ -11,7 +11,9 @@ const register = async (email, password) => {
         return "Provide correct password";
     }
     else {
+        
         await callToRepo(email, password);
+
         return "Call to repo correctly";
 
     }
