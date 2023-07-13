@@ -54,32 +54,59 @@ const insertDataAuthPofileTable = (req, res)=>{
       })
       .then((isEmailExist)=>{
         if(!isEmailExist){
-              const insertAuthAndProfileQuery = `
-                    INSERT INTO Auth (
-                      email,
-                      pass
-                    )
-                    VALUES (
-                        '${email}',
-                        '${pass}'
-                    );
+          //     const insertAuthAndProfileQuery = `
+          //           INSERT INTO Auth (
+          //             email,
+          //             pass
+          //           )
+          //           VALUES (
+          //               '${email}',
+          //               '${pass}'
+          //           );
                 
                     
-                    INSERT INTO Profiles (
-                      email,
-                      first_name,
-                      last_name,
-                      Age,
-                      photo
-                    )
-                    VALUES (
-                        '${email}',
-                        '${firstName}',
-                        '${lastName}',
-                        '${Age}',
-                        '${path}'
-                    )
-          ;`
+          //           INSERT INTO Profiles (
+          //             email,
+          //             first_name,
+          //             last_name,
+          //             Age,
+          //             photo
+          //           )
+          //           VALUES (
+          //               '${email}',
+          //               '${firstName}',
+          //               '${lastName}',
+          //               '${Age}',
+          //               '${path}'
+          //           )
+          // ;`
+
+          const insertAuthAndProfileQuery = `
+                          INSERT INTO Auth (
+                            email,
+                            pass
+                          )
+                          VALUES (
+                              '${email}',
+                              '${pass}'
+                          );
+                      
+                          
+                          INSERT INTO Profiles (
+                          
+                            first_name,
+                            last_name,
+                            Age,
+                            photo
+                          )
+                          VALUES (
+                              
+                              '${firstName}',
+                              '${lastName}',
+                              '${Age}',
+                              '${path}'
+                          )
+                          ;`
           return promise(insertAuthAndProfileQuery)
         }
         else{
