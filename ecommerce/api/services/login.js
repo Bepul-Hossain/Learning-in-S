@@ -23,7 +23,15 @@ const login = async (email, password) => {
                         return "email or Password is incorrect";
                     }
                     else{
-                        return "Email or pass is correct"
+
+                        const token = jwt.sign({id: result[0].dataValues.id.toString()}, "bepul")
+                        return {
+                            msg: "logged in successfully",
+                            user: result[0],
+                            token
+                        }
+                        // // console.log(result[0].dataValues.id);
+                        // return "Email or pass is correct"
                     }
                 })
                 console.log(data);

@@ -10,7 +10,7 @@ const login = async (req, res) => {
 
     } catch (error) {
       
-        return res.send('erro found');
+        return res.send('error found');
     }
 
     // res.send("log in callled")
