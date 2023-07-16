@@ -4,7 +4,7 @@ const router = express.Router();
 const testroutes = require('./testroutes');
 const register = require('./register');
 const login = require('./login');
-const { secreteRoute } = require('./secretRoute');
+const { products } = require('./products');
 const authenticate = require('../controllers/auth/authenticate');
 
  
@@ -16,6 +16,8 @@ router.use('/bepul', testroutes);
 
 router.use('/auth', register);
 router.use('/auth', login);
-router.use('/secret-route', authenticate, secreteRoute)
+router.use('/products', authenticate, products);
+
+
 
 module.exports = router;
