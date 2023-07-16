@@ -9,7 +9,22 @@ const callToRepo =  async (email, password)=>{
 
 }
 
+const isEmailExist = async(email)=>{
+    const Register = await db.register;
+    let emails =  await Register.findAll({ where: {
+        email: email
+      }});
+      
+    if(emails.length>0){
+       
+        return true
+    }else{
+        return false
+    }
+}   
+
 module.exports = {
-    callToRepo
+    callToRepo,
+    isEmailExist
 }
 

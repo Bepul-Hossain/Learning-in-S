@@ -5,12 +5,11 @@ const register = async (req, res) => {
     
     try {
         const p = await registerService.register(email, password);
-
+        console.log("Data inserted successfully");
         return res.send(p);
 
     } catch (error) {
-        console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-
+      
         return res.send('erro found');
     }
 
