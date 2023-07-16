@@ -29,5 +29,6 @@ db.test= test;
 
 
 db.register = require('./register')(sequelize, DataTypes);
+db.products = require('./products')(sequelize, DataTypes);
 
 module.exports = db
