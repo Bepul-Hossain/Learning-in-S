@@ -1,4 +1,4 @@
-const { productsInsert, isExistProductID } = require("../repo/productsInsert");
+const { productsInsert, isExistProductID } = require("../../repo/productsInsert");
 
 const productsInsertService = async (item)=>{
 

@@ -1,4 +1,4 @@
-const {callToSecreteRepo} = require('../repo/callToSecreteRepo')
+const {callToSecreteRepo} = require('../../repo/callToSecreteRepo')
 
 const callToSecreteService = (decodedId)=>{
     return callToSecreteRepo(decodedId);

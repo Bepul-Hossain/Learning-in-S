@@ -1,6 +1,6 @@
 const jwt=require("jsonwebtoken")
 
-const { callToSecreteService } = require("../../services/callToSecreteService");
+const { callToSecreteService } = require("../../services/auth/callToSecreteService");
 
 const authenticate = async(req,res,next)=>{
 
