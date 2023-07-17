@@ -10,6 +10,7 @@ const auth = require('./auth/auth');
 const { productDetailsCtr } = require('../controllers/products/productDetailsCtr');
 const { allProductsCtr } = require('../controllers/products/allProductsCtr');
 const { addToCart } = require('../controllers/cart/addToCart');
+const { removeFromCartCtr } = require('../controllers/cart/removeFromCart');
 
 router.get('/res',(req, res)=>{
     return res.send("rotuer called")
@@ -24,7 +25,7 @@ router.use('/auth', auth)
 
 ////  private routes 
 router.use('/addToCart', authenticate, addToCart);
-// router.use('romoveFromCart', authenticate, removeFromCart);
+router.use('/removeFromCart',authenticate, removeFromCartCtr);
 
 ////  admin routes
 router.use('/productsInsert', productsInsert);
