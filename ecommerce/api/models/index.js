@@ -26,5 +26,6 @@ db.sequelize = sequelize;
 
 db.register = require('./register')(sequelize, DataTypes);
 db.products = require('./products')(sequelize, DataTypes);
+db.addToCart = require('./addToCart')(sequelize, DataTypes);
 
 module.exports = db

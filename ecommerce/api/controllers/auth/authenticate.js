@@ -10,10 +10,10 @@ const authenticate = async(req,res,next)=>{
        
         const decoded=jwt.verify(idToken, process.env.SECRET_KEY);
         
-        // req.id=decoded.id;
+        req.authToken=decoded.id;
         
         const p = await callToSecreteService(decoded.id);
-       
+        
         if(p.length>0){
             return next();
         }else{

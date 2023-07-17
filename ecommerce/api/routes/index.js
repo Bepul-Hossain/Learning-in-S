@@ -6,9 +6,10 @@ const authenticate = require('../controllers/auth/authenticate');
 const {productsInsert} = require('../controllers/admin/productsInsert')
  
 const auth = require('./auth/auth');
-const { addToCart } = require('./addToCart/addToCart');
+// const { addToCart } = require('./addToCart/addToCart');
 const { productDetailsCtr } = require('../controllers/products/productDetailsCtr');
 const { allProductsCtr } = require('../controllers/products/allProductsCtr');
+const { addToCart } = require('../controllers/addToCart/addToCart');
 
 router.get('/res',(req, res)=>{
     return res.send("rotuer called")
