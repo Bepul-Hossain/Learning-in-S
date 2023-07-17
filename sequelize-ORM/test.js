@@ -1,6 +1,6 @@
 const { Sequelize, DataTypes, json } = require('sequelize');
 
-const sequelize = new Sequelize('sequelizeORM', 'root', 'Bepul@3964', {
+const sequelize = new Sequelize('sharetrip', 'root', 'Bepul@3964', {
   host: 'localhost',
   dialect: 'mysql'
 });
