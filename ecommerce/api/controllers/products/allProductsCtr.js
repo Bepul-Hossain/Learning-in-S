@@ -1,8 +1,9 @@
 const { allProductsService } = require("../../services/products/allProductsService")
 
-const allProductsCtr = async ()=>{
+const allProductsCtr = async (req, res)=>{
 
-    return await allProductsService()
+    const allProducts = await allProductsService();
+    res.send(allProducts);
 }
 
 module.exports = {
