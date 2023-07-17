@@ -1,4 +1,4 @@
-const { addToCart } = require("../../repo/addToCart/addToCart")
+const { addToCart } = require("../../repo/cart/addToCart")
 
 const addToCartService = async(userId, items)=>{
     const result = await addToCart(userId, items);
