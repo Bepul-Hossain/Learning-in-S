@@ -24,10 +24,6 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-const test = require('./test')(sequelize, DataTypes);
-db.test= test;
-
-
 db.register = require('./register')(sequelize, DataTypes);
 db.products = require('./products')(sequelize, DataTypes);
 
