@@ -1,19 +1,17 @@
 const express = require('express');
 const router = express.Router();
 
-const register = require('./register');
-const login = require('./login');
 const { products } = require('./products');
 const authenticate = require('../controllers/auth/authenticate');
 const {productsInsert} = require('../controllers/admin/productsInsert')
  
+const auth = require('./auth/auth');
 
 router.get('/res',(req, res)=>{
     return res.send("rotuer called")
 });
 
-router.use('/auth', register);
-router.use('/auth', login);
+router.use('/auth', auth)
 router.use('/products', authenticate, products);
 router.use('/productsInsert', productsInsert);
 
