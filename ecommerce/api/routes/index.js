@@ -11,6 +11,7 @@ const { productDetailsCtr } = require('../controllers/products/productDetailsCtr
 const { allProductsCtr } = require('../controllers/products/allProductsCtr');
 const { addToCart } = require('../controllers/cart/addToCart');
 const { removeFromCartCtr } = require('../controllers/cart/removeFromCart');
+const { searchProductsCtr } = require('../controllers/products/searchProductsCtr');
 
 router.get('/res',(req, res)=>{
     return res.send("rotuer called")
@@ -19,6 +20,7 @@ router.get('/res',(req, res)=>{
 ////  public routes
 router.use('/allProducts', allProductsCtr);
 router.use('/productDetails/:productId', productDetailsCtr);
+router.use('/search', searchProductsCtr);
 
 ////  authentication routes
 router.use('/auth', auth)
