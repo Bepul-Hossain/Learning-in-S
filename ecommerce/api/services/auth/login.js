@@ -24,7 +24,7 @@ const login = async (email, password) => {
                     }
                     else{
 
-                        const token = jwt.sign({id: result[0].dataValues.id.toString()}, "bepul")
+                        const token = jwt.sign({id: result[0].dataValues.id.toString()}, process.env.SECRET_KEY)
                         return {
                             msg: "logged in successfully",
                             user: result[0],

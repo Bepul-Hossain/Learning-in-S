@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { products } = require('./products');
+const { products } = require('./products/products');
 const authenticate = require('../controllers/auth/authenticate');
 const {productsInsert} = require('../controllers/admin/productsInsert')
  

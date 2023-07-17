@@ -8,7 +8,7 @@ const authenticate = async(req,res,next)=>{
          
         const idToken=req.header('AuthToken');
        
-        const decoded=jwt.verify(idToken,"bepul");
+        const decoded=jwt.verify(idToken, process.env.SECRET_KEY);
         
         // req.id=decoded.id;
         
