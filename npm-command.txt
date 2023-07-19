@@ -1,0 +1,24 @@
+npm list
+npm list --depth=0
+npm veiw
+npm veiw mongoose
+npm view mongoose dependencies
+npm view mongoose version
+npm outdated
+npm update
+npm i -g npm-check-updates
+npm i -g outdated
+npm i -g update
+npm un packagename
+npm un -g packagename
+
+npm adduser
+npm publish
+npm version minor
+npm publish
+
+sudo systemctl status mongodb
+mongo
+mongod
+mongod --version
+mongo --version
