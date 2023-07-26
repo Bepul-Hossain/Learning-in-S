@@ -1,5 +1,5 @@
 
-const { isEmailExist2 } = require('../../repo/register')
+const { isEmailExist2 } = require('../../repo/admin/register')
 
 const bcrypt = require('bcrypt');
 const jwt=require('jsonwebtoken')
