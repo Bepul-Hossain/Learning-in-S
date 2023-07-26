@@ -15,8 +15,10 @@ const login = async (email, password) => {
           if(result.length===0){
             return 'This email not exist';
 
-          }else{
-           
+          }else if(!result[0].dataValues.isAdmin){
+            return "Your admin status: false, Only database can set status true";
+          }
+          else{
             const data =  await bcrypt.compare(password, result[0].dataValues.password)
                 .then((isMatch)=>{
                     if(isMatch===false){
@@ -25,6 +27,7 @@ const login = async (email, password) => {
                     else{
 
                         const token = jwt.sign({id: result[0].dataValues.id.toString()}, process.env.SECRET_KEY)
+                        
                         return {
                             msg: "logged in successfully",
                             user: result[0],
