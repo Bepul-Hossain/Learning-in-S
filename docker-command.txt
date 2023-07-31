@@ -1,0 +1,9 @@
+"pwd" then go to "/" directory
+docker build -t docker-test .
+docker images
+docker image ls
+docker run docker-test
+docker tag b310ed9d25ab bepul/docker-test
+docker push bepul/docker-test
+docker pull bepul/docker-test
+docker ps  => show the <container-id>
