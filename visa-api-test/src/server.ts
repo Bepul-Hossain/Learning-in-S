@@ -31,6 +31,9 @@ const gracefulShutdown = (server: http.Server, forcedTimeout: number) => {
 
 const server = http.createServer(app);
 
+// when press Ctrl+C then SIGINT event will be run. 
+// https://www.geeksforgeeks.org/node-js-process-signal-events/
+
 process.on("SIGTERM", gracefulShutdown(server, config.APP_FORCE_SHUTDOWN_SECOND));
 process.on("SIGINT", gracefulShutdown(server, config.APP_FORCE_SHUTDOWN_SECOND));
 
