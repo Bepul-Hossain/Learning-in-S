@@ -5,26 +5,8 @@ export interface VisaCapitalInterface{
     id?:number;
     countryName: string;
     countryCode: string;
-    currency: string;
-    bookingCurrency: string;
-    visaCountryCode: string;
     capital?: string;
-    localTime: string;
-    telephoneCode?: string;
-    bankTime?: string;
-    exchangeRate?: string;
-    embassyAddress?: string;
-    lowestPrice: number;
-    discount: number;
-    nationality: string;
-    visaRequirement: string;
-    featured: boolean;
-    importantNotes?: string;
-    faq?: string;
-    status: boolean;
-	searchID?: number;
-    createdAt?: Date;
-    updatedAt?: Date;
+
 }
 
 // class VisaCapital extends Model implements VisaCapitalInterface{
@@ -60,3 +42,5 @@ export interface VisaCapitalInterface{
 //     sequelize: newSequelize(),
 //     // modelName: "visa_country"
 // })
+
+// export default VisaCapital;
