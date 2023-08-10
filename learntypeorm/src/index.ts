@@ -1,20 +1,56 @@
-import { AppDataSource } from "./data-source"
-import { User } from "./entity/User"
+import { AppDataSource } from "./data-source";
+import { Product } from "./entity/Product";
 
-AppDataSource.initialize().then(async () => {
+AppDataSource.initialize().then(async()=>{
 
-    console.log("Inserting a new user into the database...")
-    const user = new User()
-    user.firstName = "Timber"
-    user.lastName = "Saw"
-    user.age = 25
-    await AppDataSource.manager.save(user)
-    console.log("Saved a new user with id: " + user.id)
+    //insert
+     const result =   await AppDataSource
+       .createQueryBuilder()
+        .insert()
+        .into(Product)
+        .values([
+            {name: "m21", description:"super cool phone 3", price:30000, brand: "samsung"},
+        ])
+        .execute()
 
-    console.log("Loading user from the database...")
-    const users = await AppDataSource.manager.find(User)
-    console.log("Loaded users: ", users)
+    console.log(result);
 
-    console.log("Here you can setup and run express / fastify / any other framework.")
+    // // get
+    // const result = await AppDataSource
+    // .getRepository(Product)
+    // .createQueryBuilder("prod")
+    // .select(["prod.name", "prod.price"])
+    // .getMany()
 
-}).catch(error => console.log(error))
+    // console.log(result);
+
+    // //update
+
+    // const result = await AppDataSource
+    // .createQueryBuilder()
+    // .update(Product)
+    // .set({name: 'm31'})
+    // .where("id=:id",{id:1})
+    // .execute()
+
+    // console.log(result);
+
+
+    // //delete
+
+    // const result = await AppDataSource
+    // .createQueryBuilder()
+    // .delete()
+    // .from(Product)
+    // .where("id=:id",{id:1})
+    // .execute()
+
+    // console.log(result);
+
+
+}).catch((error)=>{
+    console.log("=-----");
+    
+    console.log(error);
+    
+})
