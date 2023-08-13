@@ -10,5 +10,6 @@ export class CatsService {
     }
     findAll(): Cat[]{
         return this.cats;
+        // throw new Error("Hello")
     }
 }
