@@ -16,4 +16,9 @@ export class ProductsController{
     addProduct(@Body() productDto: ProductDto){
        return this.productsService.addProduct(productDto);
     }
+
+    @Get('findAll')
+   findAllProducts(){
+        return this.productsService.findAllProduct();
+    }
 }

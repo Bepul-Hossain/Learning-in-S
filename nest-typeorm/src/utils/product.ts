@@ -1,5 +1,5 @@
 export type ProductParam = {
-    name: string;
+    name?: string;
     price: number;
     description: string;
 }

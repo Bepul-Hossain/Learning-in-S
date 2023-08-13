@@ -20,4 +20,9 @@ export class ProductsService {
         console.log(product);
         return this.productRepo.save(newProduct);
     }
+
+    findAllProduct(): Promise<Product[]>{
+        return this.productRepo.find();
+    }
+
 }
