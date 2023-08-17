@@ -1,14 +1,14 @@
 class Observer {
     constructor(){
-        this.content=[];
+        this.subscribers=[];
     }
 
     sub(subscriber){
-        this.content.push(subscriber);
+        this.subscribers.push(subscriber);
     }
 
     unsub(subscriber){
-        this.content = this.content.filter(function (item) {
+        this.subscribers = this.subscribers.filter(function (item) {
             if (item !== subscriber) {
                 return item;
             }
@@ -16,7 +16,7 @@ class Observer {
     }
 
     notify(event){
-        this.content.forEach(function(subscriber){
+        this.subscribers.forEach(function(subscriber){
             subscriber.call("",event)
         })
     }
