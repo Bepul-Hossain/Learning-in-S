@@ -1,5 +1,5 @@
 import { Roles } from "../../utility/common/user-roles.enum";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, Timestamp, UpdateDateColumn } from "typeorm";
 
 // export enum Roles {
 //     ADMIN = 'admin',
@@ -13,16 +13,23 @@ export class UserEntity {
     @Column()
     name: string;
     
-    @Column()
+    @Column({unique: true})
     email: string;
 
-    @Column()
+    @Column({select: false})
     password: string;
 
     @Column({type: 'enum', enum: Roles, default: Roles.USER})
     roles: Roles;
 
+    @CreateDateColumn()
+    createdAt: Timestamp;
+
+    @UpdateDateColumn()
+    updatedAt: Timestamp
+
     // @Column({type:'json'})
     // testrow: string; // json array
 }
+
 
