@@ -1,13 +1,12 @@
 class Observer {
-    constructor(){
-        this.subscribers=[];
-    }
 
-    sub(subscriber){
+    subscribers=[];
+
+    subscription(subscriber){
         this.subscribers.push(subscriber);
     }
 
-    unsub(subscriber){
+    unsubscription(subscriber){
         this.subscribers = this.subscribers.filter(function (item) {
             if (item !== subscriber) {
                 return item;
@@ -17,7 +16,7 @@ class Observer {
 
     notify(event){
         this.subscribers.forEach(function(subscriber){
-            subscriber.call("",event)
+            subscriber(event)
         })
     }
 }
@@ -37,10 +36,10 @@ const subscriber3 = function(event){
 
 const p = new Observer();
 
-p.sub(subscriber1);
-p.sub(subscriber2);
+p.subscription(subscriber1);
+p.subscription(subscriber2);
 p.notify("event no #1");
-p.unsub(subscriber1);
+p.unsubscription(subscriber1);
 p.notify('event no #2');
-p.sub(subscriber3);
+p.subscription(subscriber3);
 p.notify('event no #3');
