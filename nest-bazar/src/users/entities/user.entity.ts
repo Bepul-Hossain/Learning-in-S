@@ -1,5 +1,6 @@
+import { CategoryEntitiy } from "src/categories/entities/category.entity";
 import { Roles } from "../../utility/common/user-roles.enum";
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, Timestamp, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, Timestamp, UpdateDateColumn } from "typeorm";
 
 // export enum Roles {
 //     ADMIN = 'admin',
@@ -28,8 +29,10 @@ export class UserEntity {
     @UpdateDateColumn()
     updatedAt: Timestamp
 
+    @OneToMany(() => CategoryEntitiy, (cat) => cat.addedBy)
+    categories: CategoryEntitiy[]
+
     // @Column({type:'json'})
     // testrow: string; // json array
 }
-
 
