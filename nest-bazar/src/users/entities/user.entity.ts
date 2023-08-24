@@ -3,6 +3,7 @@ import { Roles } from "../../utility/common/user-roles.enum";
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, Timestamp, UpdateDateColumn } from "typeorm";
 import { ProductEntity } from "src/products/entities/product.entity";
 import { ReviewEntity } from "src/reviews/entities/review.entity";
+import { OrderEntity } from "src/orders/entities/order.entity";
 
 // export enum Roles {
 //     ADMIN = 'admin',
@@ -39,6 +40,12 @@ export class UserEntity {
 
     @OneToMany(()=>ReviewEntity, (rev)=>rev.user)
     reviews: ReviewEntity[];
+
+    @OneToMany(()=>OrderEntity, (order)=>order.updateBy)
+    ordersUpdateBy: OrderEntity;
+
+    @OneToMany(()=>OrderEntity, (order)=>order.user)
+    orders: OrderEntity[];
     // @Column({type:'json'})
     // testrow: string; // json array
 }
