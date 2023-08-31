@@ -6,7 +6,8 @@
         "module": "CommonJS",
         "outDir": "../dist",
         "rootDir": "./",
-        "moduleResolution": "node"
+        "moduleResolution": "node",
+        "experimentalDecorators": true
     },
     "include": ["**/*.ts"]
 }
