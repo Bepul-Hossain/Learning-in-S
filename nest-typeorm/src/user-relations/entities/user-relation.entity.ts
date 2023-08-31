@@ -1,3 +1,4 @@
+import { ProfEntity } from "src/profile-relations/entities/profile-relation.entity"
 import {
     Entity,
     PrimaryGeneratedColumn,
@@ -5,10 +6,10 @@ import {
     OneToOne,
     JoinColumn,
 } from "typeorm"
-import { ProfEntity } from "./ProfEntity"
 
-@Entity()
-export class UserEntity {
+
+@Entity({name: "user-relation"})
+export class UserRelationEntity {
     @PrimaryGeneratedColumn()
     id: number
 
@@ -18,5 +19,4 @@ export class UserEntity {
     @OneToOne(()=>ProfEntity)
     @JoinColumn()
     prof: ProfEntity
-
 }

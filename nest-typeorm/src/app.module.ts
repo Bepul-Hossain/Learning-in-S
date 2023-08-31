@@ -9,8 +9,10 @@ import { ProductsModule } from './products/products.module';
 import { Product } from './entities/Product';
 import { Register } from './entities/Register';
 import { RegisterModule } from './registers/registers.module';
-import { ProfEntity } from './entities/relationshipEntity/ProfEntity';
-import { UserEntity } from './entities/relationshipEntity/UserEntity';
+import { UserRelationsModule } from './user-relations/user-relations.module';
+import { ProfileRelationsModule } from './profile-relations/profile-relations.module';
+import { ProfEntity } from './profile-relations/entities/profile-relation.entity';
+import { UserRelationEntity } from './user-relations/entities/user-relation.entity';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -20,9 +22,9 @@ import { UserEntity } from './entities/relationshipEntity/UserEntity';
     username: 'root',
     password: 'Bepul@3964',
     database:'nesttypeorm',
-    entities:[User, Profile, Product, Register, ProfEntity, UserEntity],
+    entities:[User, Profile, Product, Register, ProfEntity, UserRelationEntity],
     synchronize: true
-  }), UsersModule, ProductsModule, RegisterModule],
+  }), UsersModule, ProductsModule, RegisterModule, UserRelationsModule, ProfileRelationsModule],
   controllers: [AppController],
   providers: [AppService],
 

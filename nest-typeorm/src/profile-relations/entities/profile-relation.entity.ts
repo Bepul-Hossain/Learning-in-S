@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
 
-@Entity()
+@Entity({name: "profile-relation"})
 export class ProfEntity {
     @PrimaryGeneratedColumn()
     id: number
