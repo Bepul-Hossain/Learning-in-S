@@ -2,12 +2,12 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './typeorm/entities/User';
+import { User } from './entities/User';
 import { UsersModule } from './users/users.module';
-import { Profile } from './typeorm/entities/Profile';
+import { Profile } from './entities/Profile';
 import { ProductsModule } from './products/products.module';
-import { Product } from './typeorm/entities/Product';
-import { Register } from './typeorm/entities/Register';
+import { Product } from './entities/Product';
+import { Register } from './entities/Register';
 import { RegisterModule } from './registers/registers.module';
 
 @Module({

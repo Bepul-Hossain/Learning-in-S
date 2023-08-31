@@ -1,5 +1,6 @@
 import { AppDataSource } from "./data-source";
 import { Product } from "./entity/Product";
+import { Category, Question } from "./entity/relationship-Entity/CategoryEntity";
 
 AppDataSource.initialize().then(async()=>{
 
@@ -46,6 +47,19 @@ AppDataSource.initialize().then(async()=>{
     // .execute()
 
     // console.log(result);
+
+
+    const category1 = new Category()
+    category1.name = "ORMs"
+
+    const category2 = new Category()
+    category2.name = "Programming"
+
+    const question = new Question()
+    question.title = "How to ask questions?"
+    question.text = "Where can I ask TypeORM-related questions?"
+    question.categories = [category1, category2]
+    await AppDataSource.manager.save(question)
 
 
 }).catch((error)=>{

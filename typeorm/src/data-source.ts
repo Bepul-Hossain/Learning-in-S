@@ -1,6 +1,7 @@
 import "reflect-metadata"
 import { DataSource } from "typeorm";
 import { Product } from "./entity/Product";
+import { Category, Question } from "./entity/relationship-Entity/CategoryEntity";
 
 export const AppDataSource = new DataSource({
     type: "mysql",
@@ -11,7 +12,7 @@ export const AppDataSource = new DataSource({
     database: 'nesttypeorm',
     synchronize: true,
     logging: false,
-    entities: [Product],
+    entities: [Product, Category, Question],
     migrations: [],
     subscribers: []
 })
