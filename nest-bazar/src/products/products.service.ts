@@ -9,6 +9,8 @@ import { UserEntity } from 'src/users/entities/user.entity';
 import { OrderStatus } from 'src/orders/enums/order-status.enum';
 import dataSource from 'db/data-source';
 import { OrdersService } from 'src/orders/orders.service';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
 
 @Injectable()
 export class ProductsService {
@@ -17,7 +19,8 @@ export class ProductsService {
       @InjectRepository(ProductEntity) 
       private readonly productRepository: Repository<ProductEntity>,
       private readonly categoryService: CategoriesService,
-      @Inject(forwardRef(()=>OrdersService)) private readonly orderService: OrdersService
+      @Inject(forwardRef(()=>OrdersService)) private readonly orderService: OrdersService,
+      @Inject(CACHE_MANAGER) private cacheManager: Cache
     ){}
 
   async create(createProductDto: CreateProductDto, currentUser: UserEntity):Promise<ProductEntity> {
@@ -31,6 +34,14 @@ export class ProductsService {
   }
 
   async findAll(query: any):Promise<{products: any[], totalProducts, limit}> {
+    const value: {products: any[], totalProducts, limit} = await this.cacheManager.get('key');
+    console.log("value 1",value);
+    if(value){
+      console.log("value 2",value);
+      
+     //return await this.cacheManager.get('key')
+      return value;
+    } else{
     let filtedTotalProducts: number;
     let limit: number;
     if(!query.limit){
@@ -90,8 +101,9 @@ export class ProductsService {
     }
 
     const products = await queryBuilder.getRawMany();
-
+    await this.cacheManager.set('key', {products, totalProducts, limit});
     return {products, totalProducts, limit};
+  }
   }
 
   async findOne(id: number):Promise<ProductEntity> {
