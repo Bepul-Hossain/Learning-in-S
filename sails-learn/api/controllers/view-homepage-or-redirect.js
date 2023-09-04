@@ -1,3 +1,5 @@
+// const Profile = require("../models/Profile");
+
 module.exports = {
 
 
@@ -10,7 +12,7 @@ module.exports = {
   exits: {
 
     success: {
-      statusCode: 200,
+      statusCode: 205,
       description: 'Requesting user is a guest, so show the public landing page.',
       viewTemplatePath: 'pages/homepage'
     },
@@ -23,13 +25,26 @@ module.exports = {
   },
 
 
-  fn: async function () {
-    
-    if (this.req.me) {
-      throw {redirect:'/welcome'};
-    }
+  fn: async function (inputs, exits) {
 
-    return {};
+    // if (this.req.me) {
+    //   throw {redirect:'/welcome'};
+    // }
+
+    // return {};
+
+    console.log("==========================");
+    const res =  await Profile.create({name:'Finn1', });
+    console.log( this.req.body);
+    console.log( inputs);
+    exits.success({jj: 'kk'});
+    var newUserRecord = await Profile.find()
+    var [RowDataPacket] = newUserRecord;
+    // console.log(newUserRecord);
+    console.log("---------=============--------");
+  
+
+    return RowDataPacket;
 
   }
 
