@@ -1,0 +1,8 @@
+cat /etc/shells
+ls -all
+chmod +x hello.sh
+./test.sh
+
+//debug option
+bash -x ./hello.sh
+#!/bin/bash
