@@ -1,22 +1,664 @@
-openapi: 3.0.0
+openapi: 3.0.1
 info:
-  title: Sample API
-  description: Optional multiline or single-line description in HTML.
-  version: 0.1.9
+  title: ShareTrip Public APi V1
+  description: "Hotel public api"
+  contact:
+    email: tech@sharetrip.net
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 3.0.0
 servers:
-  - url: http://localhost:3000/
-    description: Optional server description, e.g. Main (production) server
+  - url: https://stg-b2b.api.sharetrip.net/api/
+tags:
+  - name: Auth
+    description: "User Authentication. "
+  - name: Hotel
+    description: "Hotel, Every endpoint needs to inject accessToken in header"
 paths:
-  /:
-    get:
-      summary: Returns a list of users.
-      description: Optional extended description in CommonMark or HTML.
+  /v1/auth/login:
+    post:
+      tags:
+        - Auth
+      summary: B2B root user login
+      description: This API is only for root users.
+      operationId: authLoginPOST
+      requestBody:
+        description: Post json string like below
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/auth_login_body"
+        required: true
       responses:
-        '200':    # status code
-          description: A JSON array of user names
+        "200":
+          description: SUCCESS
           content:
-            application/json:
-              schema: 
-                type: array
-                items: 
-                  type: string
+            SUCCESS:
+              example:
+                code: SUCCESS
+                message: Login successful exam.
+                response:
+                  email: shahabuddin@sharetrip.net
+                  mobileNumber: null
+                  username: b2bApiUser
+                  title: Mr
+                  firstName: Api
+                  lastName: User
+                  designation: null
+                  address: null
+                  avatar: null
+                  gender: null
+                  dob: null
+                  token: $2y$13$QYjFswq3BJRF2.xk6UGxs.bLblmTH9cKZUwr0bjZa2lITg1Y7wbWi
+
+        "400":
+          description: List of all kinds error
+          content:
+            E_MISSING_OR_INVALID_PARAMS:
+              example:
+                code: FAILED
+                message: Password Invalid
+                errors:
+                  - Password Invalid
+
+        "500":
+          description: Internal Server Error
+          content:
+            EXCEPTION:
+              example:
+                code: EXCEPTION
+                message: UNKNOWN EXCEPTION
+                errors:
+                  - UNKNOWN EXCEPTION
+      x-swagger-router-controller: Auth
+  /v1/hotel/booking:
+    get:
+      tags:
+        - Hotel
+      summary: Flight Airport Search
+      description:
+        "Search for airports using city name(Dhaka, Sylhet, etc) or airport IATA code (DAC, ZYL, etc)"
+      parameters:
+        - name: userToken
+          in: header
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: name
+          in: query
+          required: true
+          style: form
+          explode: true
+          schema:
+            type: string
+            example: Dhaka
+      responses:
+        "200":
+          description: SUCCESS
+          content:
+            SUCCESS:
+              example:
+                code: SUCCESS
+                message: Airport found.
+                response:
+                  - city: Dhaka
+                    iata: DAC
+                    name: "Bangladesh, Hazrat Shahjalal International Airport (DAC)"
+        "400":
+          description: E_MISSING_QUERY_PARAMS
+          content:
+            E_MISSING_QUERY_PARAMS:
+              example:
+                code: E_MISSING_QUERY_PARAMS
+                message: sequenceCode is not allowed to be empty.
+                errors:
+                  - sequenceCode is not allowed to be empty.
+            E_INVALID_QUERY_PARAMS:
+              example:
+                code: E_INVALID_QUERY_PARAMS
+                message: Your search session has expired. Kindly search again.
+                errors:
+                  - Your search session has expired. Kindly search again.
+      x-swagger-router-controller: Hotel
+  /v1/hotel/H826347:
+    get:
+      tags:
+        - Hotel
+      summary: hotel id
+      description: This API is show hotel description
+      parameters:
+        - name: hotelId
+          in: query
+          required: true
+          style: form
+          explode: false
+          schema:
+            type: string
+        - name: searchCode
+          in: query
+          required: true
+          style: form
+          explode: true
+          schema:
+            type: string
+            example: Dhaka
+        - name: bundle
+          in: query
+          required: true
+          schema:
+            type: boolean
+            example: true
+      responses:
+        "200":
+          description: SUCCESS
+          content:
+            SUCCESS:
+              example:
+                code: SUCCESS
+                message: Your result is ready.
+                response:
+                  rooms:
+                    - - rooms:
+                          - name: Superior Double room
+                            amenities:
+                              - name: Private bathroom
+                                logo: https://utility-assets.s3.amazonaws.com/media/assets/room-amenities-icon/SVG/private-bathroom.svg
+                                logoPng: https://utility-assets.s3.amazonaws.com/media/assets/room-amenities-icon/PNG/private-bathroom.png
+                                logoPdf: https://utility-assets.s3.amazonaws.com/media/assets/room-amenities-icon/PDF/private-bathroom.pdf
+                              - name: Window
+                                logo: https://utility-assets.s3.amazonaws.com/media/assets/room-amenities-icon/SVG/window.svg
+                                logoPng: https://utility-assets.s3.amazonaws.com/media/assets/room-amenities-icon/PNG/window.png
+                                logoPdf: https://utility-assets.s3.amazonaws.com/media/assets/room-amenities-icon/PDF/window.pdf
+                              - name: Beautiful view
+                                logo: https://utility-assets.s3.amazonaws.com/media/assets/room-amenities-icon/SVG/with-view.svg
+                                logoPng: https://utility-assets.s3.amazonaws.com/media/assets/room-amenities-icon/PNG/with-view.png
+                                logoPdf: https://utility-assets.s3.amazonaws.com/media/assets/room-amenities-icon/PDF/with-view.pdf
+                        images:
+                          - https://api.sharetrip.net/api/v1/hotel/image/?key=Zwp76S3Bl3x4Ap1a33An4w2MTZiGm8uPLOwvxtLwm7hYdr/uiOO+JaWCMZt25YJrXp7OcK/24zyISVgzc9I1UQ==
+                          - https://api.sharetrip.net/api/v1/hotel/image/?key=H7mxgIYaGyzvVORKOcxCT048HeHn6y1HyLUM7vXifdVIVuzLxVR3Czv3U58b0ILbNDzpdZ8YBb1vE7JfwYyWHA==
+                        tour_urls: []
+                        rates:
+                          - amenities:
+                              - private-bathroom
+                              - window
+                            roomIds: []
+                            description: ""
+                            points:
+                              shared: 50
+                              shareLink: https://sharetrip.net/
+                              earning: 546
+                            features:
+                              - twin beds
+                              - Private Bathroom
+                            roomsSegregation:
+                              - noOfChildren: 0
+                                noOfAdults: 2
+                                name: Superior Double room
+                                noOfRooms: 1
+                            size: null
+                            price:
+                              total: 18200.415999999997
+                              perNight: 6066.805333333333
+                              discount: 20
+                              perNightPriceAfterDiscount: 4853.444266666666
+                              totalPriceAfterDiscount: 14560.332799999998
+                            serpFilters:
+                              - has_bathroom
+                            name: Superior Double room X 1
+                            smokingPolicies: false
+                            cancellationPolicy:
+                              nonRefundable: false
+                              freeCancellationDate: "2023-09-22T22:59:00+06:00"
+                            meals:
+                              - No meals included
+                            totalNights: 3
+                            id: 35awutlmn4kzjs
+                            gatewayCurrency: USD
+                            providerCode: RATE_HAWK
+                            roomsText:
+                              - 1 room
+                            roomQuantities:
+                              - name: Superior Double room
+                                quantity: 1
+                          - amenities:
+                              - private-bathroom
+                              - window
+                              - with-view
+                            roomIds: []
+                            description: ""
+                            points:
+                              shared: 50
+                              shareLink: https://sharetrip.net/
+                              earning: 546
+                            features:
+                              - full double bed
+                              - Private Bathroom
+                            roomsSegregation:
+                              - noOfChildren: 0
+                                noOfAdults: 2
+                                name: Superior Double room
+                                noOfRooms: 1
+                            size: null
+                            price:
+                              total: 18200.415999999997
+                              perNight: 6066.805333333333
+                              discount: 20
+                              perNightPriceAfterDiscount: 4853.444266666666
+                              totalPriceAfterDiscount: 14560.332799999998
+                            serpFilters:
+                              - has_bathroom
+                            name: Superior Double room X 1
+                            smokingPolicies: false
+                            cancellationPolicy:
+                              nonRefundable: false
+                              freeCancellationDate: "2023-09-22T22:59:00+06:00"
+                            meals:
+                              - No meals included
+                            totalNights: 3
+                            id: 35awutlmn4kzjt
+                            gatewayCurrency: USD
+                            providerCode: RATE_HAWK
+                            roomsText:
+                              - 1 room
+                            roomQuantities:
+                              - name: Superior Double room
+                                quantity: 1
+                          - amenities:
+                              - private-bathroom
+                              - window
+                              - with-view
+                            roomIds: []
+                            description: ""
+                            points:
+                              shared: 50
+                              shareLink: https://sharetrip.net/
+                              earning: 550
+                            features:
+                              - full double bed
+                              - bed type is subject to availability
+                              - Private Bathroom
+                            roomsSegregation:
+                              - noOfChildren: 0
+                                noOfAdults: 2
+                                name: Superior Double room
+                                noOfRooms: 1
+                            size: null
+                            price:
+                              total: 18336.239999999998
+                              perNight: 6112.079999999999
+                              discount: 20
+                              perNightPriceAfterDiscount: 4889.664
+                              totalPriceAfterDiscount: 14668.991999999998
+                            serpFilters:
+                              - has_bathroom
+                            name: Superior Double room X 1
+                            smokingPolicies: false
+                            cancellationPolicy:
+                              nonRefundable: false
+                              freeCancellationDate: "2023-09-20T22:00:00+06:00"
+                            meals:
+                              - No meals included
+                            totalNights: 3
+                            id: 35awutlmn4kzju
+                            gatewayCurrency: USD
+                            providerCode: RATE_HAWK
+                            roomsText:
+                              - 1 room
+                            roomQuantities:
+                              - name: Superior Double room
+                                quantity: 1
+                          - amenities:
+                              - private-bathroom
+                              - window
+                              - with-view
+                            roomIds: []
+                            description: ""
+                            points:
+                              shared: 50
+                              shareLink: https://sharetrip.net/
+                              earning: 639
+                            features:
+                              - full double bed
+                              - Breakfast included
+                              - Private Bathroom
+                            roomsSegregation:
+                              - noOfChildren: 0
+                                noOfAdults: 2
+                                name: Superior Double room
+                                noOfRooms: 1
+                            size: null
+                            price:
+                              total: 21324.368000000002
+                              perNight: 7108.122666666667
+                              discount: 20
+                              perNightPriceAfterDiscount: 5686.498133333334
+                              totalPriceAfterDiscount: 17059.494400000003
+                            serpFilters:
+                              - has_breakfast
+                              - has_bathroom
+                            name: Superior Double room X 1
+                            smokingPolicies: false
+                            cancellationPolicy:
+                              nonRefundable: false
+                              freeCancellationDate: "2023-09-22T22:59:00+06:00"
+                            meals:
+                              - Breakfast Included
+                            totalNights: 3
+                            id: 35awutlmn4kzjw
+                            gatewayCurrency: USD
+                            providerCode: RATE_HAWK
+                            roomsText:
+                              - 1 room
+                            roomQuantities:
+                              - name: Superior Double room
+                                quantity: 1
+                          - amenities:
+                              - private-bathroom
+                              - window
+                            roomIds: []
+                            description: ""
+                            points:
+                              shared: 50
+                              shareLink: https://sharetrip.net/
+                              earning: 639
+                            features:
+                              - twin beds
+                              - Breakfast included
+                              - Private Bathroom
+                            roomsSegregation:
+                              - noOfChildren: 0
+                                noOfAdults: 2
+                                name: Superior Double room
+                                noOfRooms: 1
+                            size: null
+                            price:
+                              total: 21324.368000000002
+                              perNight: 7108.122666666667
+                              discount: 20
+                              perNightPriceAfterDiscount: 5686.498133333334
+                              totalPriceAfterDiscount: 17059.494400000003
+                            serpFilters:
+                              - has_breakfast
+                              - has_bathroom
+                            name: Superior Double room X 1
+                            smokingPolicies: false
+                            cancellationPolicy:
+                              nonRefundable: false
+                              freeCancellationDate: "2023-09-22T22:59:00+06:00"
+                            meals:
+                              - Breakfast Included
+                            totalNights: 3
+                            id: 35awutlmn4kzjx
+                            gatewayCurrency: USD
+                            providerCode: RATE_HAWK
+                            roomsText:
+                              - 1 room
+                            roomQuantities:
+                              - name: Superior Double room
+                                quantity: 1
+                          - amenities:
+                              - private-bathroom
+                              - window
+                              - with-view
+                            roomIds: []
+                            description: ""
+                            points:
+                              shared: 50
+                              shareLink: https://sharetrip.net/
+                              earning: 680
+                            features:
+                              - full double bed
+                              - bed type is subject to availability
+                              - Private Bathroom
+                            roomsSegregation:
+                              - noOfChildren: 0
+                                noOfAdults: 2
+                                name: Superior Double room
+                                noOfRooms: 1
+                            size: null
+                            price:
+                              total: 22682.608
+                              perNight: 7560.869333333333
+                              discount: 20
+                              perNightPriceAfterDiscount: 6048.695466666667
+                              totalPriceAfterDiscount: 18146.0864
+                            serpFilters:
+                              - has_bathroom
+                            name: Superior Double room X 1
+                            smokingPolicies: false
+                            cancellationPolicy:
+                              nonRefundable: false
+                              freeCancellationDate: "2023-09-20T22:00:00+06:00"
+                            meals:
+                              - Breakfast Included
+                            totalNights: 3
+                            id: 35awutlmn4kzk4
+                            gatewayCurrency: USD
+                            providerCode: RATE_HAWK
+                            roomsText:
+                              - 1 room
+                            roomQuantities:
+                              - name: Superior Double room
+                                quantity: 1
+                          - amenities: []
+                            roomIds: []
+                            description: ""
+                            points:
+                              shared: 50
+                              shareLink: https://sharetrip.net/
+                              earning: 1047
+                            features:
+                              - Private Bathroom
+                            roomsSegregation:
+                              - noOfChildren: 0
+                                noOfAdults: 2
+                                name: Superior Double room
+                                noOfRooms: 1
+                            size: null
+                            price:
+                              total: 34906.768000000004
+                              perNight: 11635.589333333335
+                              discount: 20
+                              perNightPriceAfterDiscount: 9308.471466666668
+                              totalPriceAfterDiscount: 27925.4144
+                            serpFilters:
+                              - has_bathroom
+                            name: Superior Double room X 1
+                            smokingPolicies: false
+                            cancellationPolicy:
+                              nonRefundable: false
+                              freeCancellationDate: "2023-09-20T23:00:00+06:00"
+                            meals:
+                              - Breakfast Included
+                            totalNights: 3
+                            id: 35awutlmn4kzkp
+                            gatewayCurrency: USD
+                            providerCode: RATE_HAWK
+                            roomsText:
+                              - 1 room
+                            roomQuantities:
+                              - name: Superior Double room
+                                quantity: 1
+                      - rooms:
+                          - name: Standard Double room with ocean view
+                            amenities:
+                              - name: Bottled water
+                                logo: https://utility-assets.s3.amazonaws.com/media/assets/room-amenities-icon/SVG/water.svg
+                                logoPng: https://utility-assets.s3.amazonaws.com/media/assets/room-amenities-icon/PNG/water.png
+                                logoPdf: https://utility-assets.s3.amazonaws.com/media/assets/room-amenities-icon/PDF/water.pdf
+                              - name: TV
+                                logo: https://utility-assets.s3.amazonaws.com/media/assets/room-amenities-icon/SVG/tv.svg
+                                logoPng: https://utility-assets.s3.amazonaws.com/media/assets/room-amenities-icon/PNG/tv.png
+                                logoPdf: https://utility-assets.s3.amazonaws.com/media/assets/room-amenities-icon/PDF/tv.pdf
+                              - name: Non-smoking
+                                logo: https://utility-assets.s3.amazonaws.com/media/assets/room-amenities-icon/SVG/non-smoking.svg
+                                logoPng: https://utility-assets.s3.amazonaws.com/media/assets/room-amenities-icon/PNG/non-smoking.png
+                                logoPdf: https://utility-assets.s3.amazonaws.com/media/assets/room-amenities-icon/PDF/non-smoking.pdf
+                              - name: Pillow menu
+                                logo: https://utility-assets.s3.amazonaws.com/media/assets/room-amenities-icon/SVG/pillows.svg
+                                logoPng: https://utility-assets.s3.amazonaws.com/media/assets/room-amenities-icon/PNG/pillows.png
+                                logoPdf: https://utility-assets.s3.amazonaws.com/media/assets/room-amenities-icon/PDF/pillows.pdf
+                              - name: Free Wi-Fi
+                                logo: https://utility-assets.s3.amazonaws.com/media/assets/room-amenities-icon/SVG/wi-fi.svg
+                                logoPng: https://utility-assets.s3.amazonaws.com/media/assets/room-amenities-icon/PNG/wi-fi.png
+                                logoPdf: https://utility-assets.s3.amazonaws.com/media/assets/room-amenities-icon/PDF/wi-fi.pdf
+                              - name: Mirror
+                                logo: https://utility-assets.s3.amazonaws.com/media/assets/room-amenities-icon/SVG/mirror.svg
+                                logoPng: https://utility-assets.s3.amazonaws.com/media/assets/room-amenities-icon/PNG/mirror.png
+                                logoPdf: https://utility-assets.s3.amazonaws.com/media/assets/room-amenities-icon/PDF/mirror.pdf
+                        images:
+                          - https://api.sharetrip.net/api/v1/hotel/image/?key=BQNzsh2mLYj6pGi3Y6LfQCqxY2ywBhq/IPxqiShmR05oWdYTng9lS7KIgXJ5MwSJEPq45YDYkCqsfYBIQ2ulxQ==
+                          - https://api.sharetrip.net/api/v1/hotel/image/?key=cj7Gh2alA+NfpZsOvLbHb/i7Wv/q4T8+do++dBYu5pc/mWyYcV4fIKhTK597vTvXd5JDRhymr3jsD+8ZlrXaKQ==
+                        tour_urls: []
+                        rates:
+                          - amenities: []
+                            roomIds: []
+                            description: ""
+                            points:
+                              shared: 50
+                              shareLink: https://sharetrip.net/
+                              earning: 1805
+                            features:
+                              - Private Bathroom
+                            roomsSegregation:
+                              - noOfChildren: 0
+                                noOfAdults: 2
+                                name: Standard Double room with ocean view
+                                noOfRooms: 1
+                            size: null
+                            price:
+                              total: 60170.032
+                              perNight: 20056.677333333333
+                              discount: 20
+                              perNightPriceAfterDiscount: 16045.341866666668
+                              totalPriceAfterDiscount: 48136.0256
+                            serpFilters:
+                              - has_bathroom
+                            name: Standard Double room with ocean view X 1
+                            smokingPolicies: false
+                            cancellationPolicy:
+                              nonRefundable: false
+                              freeCancellationDate: "2023-09-20T23:00:00+06:00"
+                            meals:
+                              - Breakfast Included
+                            totalNights: 3
+                            id: 35awutlmn4kzl3
+                            gatewayCurrency: USD
+                            providerCode: RATE_HAWK
+                            roomsText:
+                              - 1 room
+                            roomQuantities:
+                              - name: Standard Double room with ocean view
+                                quantity: 1
+                  promotionalCoupon:
+                    - coupon: WITHDIS
+                      title: This coupon with flat 2k extra discount
+                      isDefault: false
+                      sequence: 0
+                      minimumTotalAmount: 0
+                      withDiscount: "Yes"
+                      discount: 2000
+                      discountType: Flat
+                      gateway: []
+                      rooms: []
+                    - coupon: WITHOUTDIS
+                      title: Testing with Mushfeq bhai
+                      isDefault: false
+                      sequence: 0
+                      minimumTotalAmount: 0
+                      withDiscount: "No"
+                      discount: 2000
+                      discountType: Flat
+                      gateway: []
+                      rooms: []
+                    - coupon: STG19O
+                      title: This is test coupon for hotel and flight extra 10%
+                      isDefault: false
+                      sequence: 0
+                      minimumTotalAmount: 0
+                      withDiscount: "Yes"
+                      discount: 10
+                      discountType: Percentage
+                      gateway: []
+                      rooms: []
+                    - coupon: GPSTAR10
+                      title: This GP Star coupon with 10% extra discount
+                      isDefault: false
+                      sequence: 0
+                      minimumTotalAmount: 0
+                      withDiscount: "Yes"
+                      discount: 10
+                      discountType: Percentage
+                      gateway: []
+                      rooms: []
+                    - coupon: STMOTST
+                      title: Discount 12 %
+                      isDefault: false
+                      sequence: 0
+                      minimumTotalAmount: 0
+                      withDiscount: "No"
+                      discount: 12
+                      discountType: Percentage
+                      gateway: []
+                      rooms: []
+                    - coupon: MAXDISC
+                      title: This is maximum amount discount coupon
+                      isDefault: false
+                      sequence: 0
+                      minimumTotalAmount: 0
+                      withDiscount: "No"
+                      discount: 15
+                      discountType: Percentage
+                      gateway: []
+                      rooms: []
+                    - coupon: DOMDEFAULT
+                      title: This is DOM default coupon with max discount BDT 250 and travel date till 30th June
+                      isDefault: false
+                      sequence: 2
+                      minimumTotalAmount: 0
+                      withDiscount: "Yes"
+                      discount: 10
+                      discountType: Percentage
+                      gateway:
+                        - 4a3e12882ff84a9bbc43ca0e9b789d47
+                      rooms: []
+                    - coupon: INTDEFAULT
+                      title: This is INT default coupon with max discount BDT 250 and travel date till 30th June
+                      isDefault: false
+                      sequence: 3
+                      minimumTotalAmount: 0
+                      withDiscount: "Yes"
+                      discount: 10
+                      discountType: Percentage
+                      gateway:
+                        - 4a3e12882ff84a9bbc43ca0e9b789d47
+                      rooms: []
+                  searchParams:
+                    checkin: "2023-09-30"
+                    checkout: "2023-10-03"
+                    rooms: '[{"adults":2,"children":[]}]'
+                    currency: BDT
+                    propertyCode: R602651
+                    nationality: bd
+                    totalNights: 3
+                    deviceType: WEB
+                  roomSearchCode: 6506a82222a323001377ab92
+      x-swagger-router-controller: Hotel
+
+components:
+  schemas:
+    auth_login_body:
+      type: object
+      properties:
+        username:
+          type: string
+          example: example_username
+        password:
+          type: string
+          example: "123456977"
+      required:
+        - username
+        - password

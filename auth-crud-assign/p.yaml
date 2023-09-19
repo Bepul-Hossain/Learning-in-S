@@ -1,0 +1,460 @@
+openapi: 3.0.1
+info:
+  title: ShareTrip Public APi V1
+  description: "Hotel public api"
+  contact:
+    email: tech@sharetrip.net
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 3.0.0
+servers:
+  - url: https://stg-b2b.api.sharetrip.net/api/
+tags:
+  - name: Auth
+    description: "User Authentication. "
+  - name: Hotel
+    description: "Hotel, Every endpoint needs to inject accessToken in header"
+paths:
+  /v1/auth/login:
+    post:
+      tags:
+        - Auth
+      summary: B2B root user login
+      description: This API is only for root users.
+      operationId: authLoginPOST
+      requestBody:
+        description: Post json string like below
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/auth_login_body"
+        required: true
+      responses:
+        "200":
+          description: SUCCESS
+          content:
+            SUCCESS:
+              example:
+                code: SUCCESS
+                message: Login successful exam.
+                response:
+                  email: shahabuddin@sharetrip.net
+                  mobileNumber: null
+                  username: b2bApiUser
+                  title: Mr
+                  firstName: Api
+                  lastName: User
+                  designation: null
+                  address: null
+                  avatar: null
+                  gender: null
+                  dob: null
+                  token: $2y$13$QYjFswq3BJRF2.xk6UGxs.bLblmTH9cKZUwr0bjZa2lITg1Y7wbWi
+
+        "400":
+          description: List of all kinds error
+          content:
+            E_MISSING_OR_INVALID_PARAMS:
+              example:
+                code: FAILED
+                message: Password Invalid
+                errors:
+                  - Password Invalid
+
+        "500":
+          description: Internal Server Error
+          content:
+            EXCEPTION:
+              example:
+                code: EXCEPTION
+                message: UNKNOWN EXCEPTION
+                errors:
+                  - UNKNOWN EXCEPTION
+      x-swagger-router-controller: Auth
+  /v1/hotel/booking:
+    get:
+      tags:
+        - Hotel
+      summary: Flight Airport Search
+      description:
+        "For hetel booking, need to header (userToken) and query (name)"
+      parameters:
+        - name: userToken
+          in: header
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: name
+          in: query
+          required: true
+          style: form
+          explode: true
+          schema:
+            type: string
+            example: Dhaka
+      responses:
+        "200":
+          description: SUCCESS
+          content:
+            SUCCESS:
+              example:
+                code: SUCCESS
+                message: Airport found.
+                response:
+                  - city: Dhaka
+                    iata: DAC
+                    name: "Bangladesh, Hazrat Shahjalal International Airport (DAC)"
+        "400":
+          description: E_MISSING_QUERY_PARAMS
+          content:
+            E_MISSING_QUERY_PARAMS:
+              example:
+                code: E_MISSING_QUERY_PARAMS
+                message: sequenceCode is not allowed to be empty.
+                errors:
+                  - sequenceCode is not allowed to be empty.
+            E_INVALID_QUERY_PARAMS:
+              example:
+                code: E_INVALID_QUERY_PARAMS
+                message: Your search session has expired. Kindly search again.
+                errors:
+                  - Your search session has expired. Kindly search again.
+      x-swagger-router-controller: Hotel
+  /v1/hotel/booking-history:
+    get:
+      tags:
+        - Hotel
+      summary: Booking history
+      description: required header (userToken) and params (filterKey, limit, offset).  
+      parameters:
+        - name: userToken
+          in: header
+          required: true
+          schema:
+            type: string
+            example: $2y$1wy.rJj4I..wIF8KjWP5.jh2AOiQ7t013sKOCXR/W6fSG
+            
+        - name: filterKey
+          in: query
+          required: true
+          schema:
+            type: string
+            example: all
+            
+        - name: limit
+          in: query
+          required: true
+          schema:
+            type: number
+            example: 10
+            
+        - name: offset
+          in: query
+          required: true
+          schema:
+            type: number
+            example: 0
+            
+      responses:
+        "200":
+          description: SUCCESS
+          content:
+            SUCCESS:
+              example:
+                code: SUCCESS
+                message: Histories
+                response:
+                  list:
+                    - hotel:
+                        createdAt: '2022-11-23T11:16:37.000Z'
+                        updatedAt: '2022-11-23T11:16:37.000Z'
+                        name: Seagull Hotels Ltd.
+                        images: >-
+                          ["https://api.sharetrip.net/api/v1/hotel/image?key=HyANbffVjkBh1mA2CJLuNFZlI6UkKrgAbXWPt8bqt5XudxSGJg/auh/IeYO9o63FWll2h/tvGridd5Ar9ZmNcLeaNAGGyjLXk8mYLmT/jCSzDBS6TqXWfPCUafk0c0+4YQ0h9y5yrcma2Yjt+IcEUg==","https://api.sharetrip.net/api/v1/hotel/image?key=HyANbffVjkBh1mA2CJLuNFZlI6UkKrgAbXWPt8bqt5XudxSGJg/auh/IeYO9o63FWll2h/tvGridd5Ar9ZmNcLqtMYMdC5wnw0KxJAo5FmQJ6pgRZUOQizmC1kgXzlnk6vFExiC+XbTtbtsGGqJXhw=="]
+                        thumbnail: >-
+                          https://api.sharetrip.net/api/v1/hotel/image?key=HyANbffVjkBh1mA2CJLuNFZlI6UkKrgAbXWPt8bqt5XudxSGJg/auh/IeYO9o63FWll2h/tvGridd5Ar9ZmNcLeaNAGGyjLXk8mYLmT/jCSzDBS6TqXWfPCUafk0c0+4YQ0h9y5yrcma2Yjt+IcEUg==
+                        descriptionStruct: '[]'
+                        kind: Hotel
+                        starRating: 5
+                        rating: 0
+                        amenities: '[]'
+                        amenityGroups: >-
+                          [{"amenities":["Car Rental","Security
+                          guard"],"groupName":"Services"},]
+                        indexId: HSTHCbf614d5d3b894165a354bb817bcb4156
+                        address: 'Sea Beach, Soghundha Point, Hotel Motel Zone, Cox''s Bazar 4700'
+                        phone: 01766666539
+                        email: strooms04@gmail.com
+                        countryName: Bangladesh
+                        cityName: Cox's Bazar
+                        center: '{"lon":91.9759746,"lat":21.4250912}'
+                        postalCode: null
+                        policyStruct: >-
+                          [{"paragraphs":["Extra beds are dependent on the room you choose.
+                          Price for an extra bed will be 1500 BDT.","The number of restaurant(s)
+                          in the hotel is 1 .","Check in from: 02:00 PM","Check Out until: 12:00
+                          PM"],"title":"Additional Facts:"},{"paragraphs":["Extra beds are
+                          dependent on the room you choose. Children above 0 and below 4 stay
+                          for free if using existing bedding. If extra bed is requested,
+                          additional charge will be added. ","Children aged above 5 and below 10
+                          will have to pay 2700 BDT. ","Traveler aged above 10 will be
+                          considered as adult and will have to use an extra bed which will incur
+                          additional charge."],"title":"Child Policy:"},{"paragraphs":["Visa
+                          Master","Maestro","bKash","Amex","Cash"],"title":"Payment accepted by
+                          the property:"}]
+                      bookedRooms:
+                        - name: Regular Hill Side (Double)
+                          points: '{"shared":50,"shareLink":"https://sharetrip.net/","earning":1254}'
+                          images: >-
+                            ["https://api.sharetrip.net/api/v1/hotel/image/?key=HyANbffVjkBh1mA2CJLuNFZlI6UkKrgAbXWPt8bqt5XudxSGJg/auh/IeYO9o63FWll2h/tvGridd5Ar9ZmNcDCEHKL9mcrGB84q57YBzGmwuY5mcyXfnG/RTlMtzqyBS6+DiHmIsXQti95s74fzoQ==","https://api.sharetrip.net/api/v1/hotel/image/?key=HyANbffVjkBh1mA2CJLuNFZlI6UkKrgAbXWPt8bqt5XudxSGJg/auh/IeYO9o63FWll2h/tvGridd5Ar9ZmNcM7mbRkjZ77EglU3B7Er9BHsD19tOTXuD6poZeBUoYrYgf0LUC4Jv1KcsjDSg3K8/w=="]
+                          price: 6271
+                          adults: 2
+                          childs: 0
+                          quantity: 1
+                      guests:
+                        primaryContact:
+                          titleName: Mr
+                          givenName: Api
+                          surName: User
+                          nationality: bd
+                          age: 30
+                          travellerType: Adult
+                          address1: Bangladesh
+                          email: tech@sharetrip.net
+                          mobileNumber: '01710552611'
+                        rooms:
+                          - - titleName: Mr
+                              givenName: Shahabuddin
+                              surName: Ahmed
+                              nationality: bd
+                              age: 28
+                              travellerType: Adult
+                              address1: null
+                              email: null
+                              mobileNumber: null
+                            - titleName: Mr
+                              givenName: Anjan Kumar
+                              surName: Paul
+                              nationality: bd
+                              age: 30
+                              travellerType: Adult
+                              address1: null
+                              email: null
+                              mobileNumber: null
+                      voucherId: STHTL79615415
+                      providerCode: ST_HOTEL_PRODUCTION
+                      currency: BDT
+                      totalPrice: 6271
+                      discountValue: 314
+                      tripCoin: 0
+                      nonRefundable: false
+                      freeCancellationDate: '2022-12-02T18:00:00.000Z'
+                      paymentStatus: PAID
+                      status: COMPLETED
+                      rooms: '"[{\"adults\":2,\"children\":[]}]"'
+                      checkin: '2022-12-06'
+                      checkout: '2022-12-07'
+                      totalNights: 1
+                      specialNote: null
+                      bundle: true
+                      afterDiscountPrice: 5957
+                  limit: 10
+                  offset: 0
+                  count: 1
+        "400":
+          description: BAD REQUEST
+          content:
+            BAD_REQUEST:
+              example: 
+                code: E_VALIDATION_ERROR
+                message: child "filterKey" fails because ["filterKey" must be one of [upcoming, completed, cancelled, departed, all]]. child "limit" fails because ["limit" must be less than or equal to 100]
+                errors:
+                  - message: '"filterKey" must be one of [upcoming, completed, cancelled, departed, all]'
+                    path:
+                      - filterKey
+                    type: any.allowOnly
+                    context:
+                      value: allsdf
+                      valids:
+                        - upcoming
+                        - completed
+                        - cancelled
+                        - departed
+                        - all
+                      key: filterKey
+                      label: filterKey
+                  - message: '"limit" must be less than or equal to 100'
+                    path:
+                      - limit
+                    type: number.max
+                    context:
+                      limit: 100
+                      value: 102
+                      key: limit
+                      label: limit
+                
+  
+  /v1/hotel/{id}:
+    get:
+      tags:
+        - Hotel
+      summary: hotel details
+      description: Need to params (id)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            example: HSTHCbf614d5d3b894165a354bb817bcb4156
+      responses:
+        "200":
+          description: SUCCESS
+          content:
+            SUCCESS:
+              example:
+                code: SUCCESS
+                response:
+                  id: HSTHCbf614d5d3b894165a354bb817bcb4156
+                  name: Seagull Hotels Ltd.
+                  images:
+                    - HyANbffVjkBh1mA2CJLuNFZlI6UkKrgAbXWPt8bqt5XudxSGJg/auh/IeYO9o63FWll2h/tvGridd5Ar9ZmNcG/xy575wQXorLgZD6EZM0plmwIO30mN95Dxbv9qQf4G1IbZDxvpDXFo4OMK+PWjjA==
+                    - HyANbffVjkBh1mA2CJLuNFZlI6UkKrgAbXWPt8bqt5XudxSGJg/auh/IeYO9o63FWll2h/tvGridd5Ar9ZmNcI5yLSb7o+3vONHkmMW4Z/4Y6i8pLEfSbI/MOk3s/ptmLvsHAqZ3TyZxPV7xHR97Fw==
+                  thumbnail: HyANbffVjkBh1mA2CJLuNFZlI6UkKrgAbXWPt8bqt5XudxSGJg/auh/IeYO9o63FWll2h/tvGridd5Ar9ZmNcLeaNAGGyjLXk8mYLmT/jCSzDBS6TqXWfPCUafk0c0+4YQ0h9y5yrcma2Yjt+IcEUg==
+                  descriptionStruct: []
+                  kind: Hotel
+                  starRating: 5
+                  amenities: []
+                  address: Sea Beach, Soghundha Point, Hotel Motel Zone, Cox's Bazar 4700
+                  country: Bangladesh
+                  cityName: Cox's Bazar
+                  center:
+                    lon: 91.9759746
+                    lat: 21.4250912
+                  postalCode: null
+                  policyStruct:
+                    - paragraphs:
+                        - Extra beds are dependent on the room you choose. Price for an extra bed will be 1500 BDT.
+                        - The number of restaurant(s) in the hotel is 1 .
+                        - 'Check in from: 02:00 PM'
+                        - 'Check Out until: 12:00 PM'
+                      title: 'Additional Facts:'
+                  phone: '01766666539'
+                  email: strooms04@gmail.com
+                  amenityGroups:
+                    - groupName: Services
+                      amenities:
+                        - Car Rental
+                        - Security guard
+                    - groupName: TV and Equipment
+                      amenities:
+                        - Cable TV
+                        - Telephone
+                  rooms:
+                    - id: 10
+                      name: Regular Hill Side (Double)
+                    - id: 2232
+                      name: Regular Sea Side (Double)
+        "400":
+          description: BAD_REQUEST
+          content:
+            QUERY_PARAM_ID_NOT_FOUND: 
+              example:
+                code: E_NOT_FOUND
+                message: Not found
+                errors:
+                  - Not found
+                
+      x-swagger-router-controller: Hotel
+  /v1/hotel/cancel-booking:
+    post:
+      tags:
+        - Hotel
+      summary: Hotel booking cancel
+      description: "Hotel booking description"
+      responses:
+        "200":
+          description: SUCCESS
+          content:
+            SUCCESS:
+              example:
+                code: SUCCESS
+                message: Hotel cancell
+                response:
+                  - city: Dhaka
+                    iata: DAC
+                    name: "Bangladesh, Hazrat Shahjalal International Airport (DAC)"
+  /v2/hotel/search:
+    post:
+      tags:
+        - Hotel
+      summary: Hotel search
+      description: "Hotel search description"
+      responses:
+        "200":
+          description: SUCCESS
+          content:
+            SUCCESS:
+              example:
+                code: SUCCESS
+                message: Hotel search
+                response:
+                  - city: Dhaka
+                    iata: DAC
+                    name: "Bangladesh, Hazrat Shahjalal International Airport (DAC)"
+  /v2/hotel/room:
+    post:
+      tags:
+        - Hotel
+      summary: Hotel room
+      description: "Hotel room description"
+      responses:
+        "200":
+          description: SUCCESS
+          content:
+            SUCCESS:
+              example:
+                code: SUCCESS
+                message: Hotel room
+                response:
+                  - city: Dhaka
+                    iata: DAC
+                    name: "Bangladesh, Hazrat Shahjalal International Airport (DAC)"
+components:
+  schemas:
+    auth_login_body:
+      type: object
+      properties:
+        username:
+          type: string
+          example: example_username
+        password:
+          type: string
+          example: "123456977"
+      required:
+        - username
+        - password
+        
+  parameters:
+    booking_history_param:
+      name: filterKey
+      in: query
+      description: filter key 
+      required: true
+      schema:
+        type: string
+        example: all
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      

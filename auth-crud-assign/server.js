@@ -11,6 +11,8 @@ const YAML = require("yamljs")
 const app = express()
 const port = 3000
 
+var cors = require('cors')
+app.use(cors())
 const {createAuthProfile} = require('./db/createAuthProfile');
 const {insertDataAuthPofileTable} = require('./db/insertDataAuthPofileTable');
 const { login } = require('./db/login');
@@ -25,15 +27,14 @@ app.use(bodyParser.urlencoded({
 
 app.use(bodyParser.json());
 
-
 app.get('/', (req, res) => {
   res.send('Auth crud assign working')
 })
 
 
 app.post('/createAuthProfile', createAuthProfile);
-app.post('/insertDataAuthPofileTable', isUploadPhoto, insertDataAuthPofileTable);
-app.get('/login',login)
+app.post('/insertDataAuthPofileTable',isUploadPhoto, insertDataAuthPofileTable);
+app.post('/login',login)
 
 app.put('/updateProfile/:userId', updateProfile);
 app.delete('/deleteProfile/:userId', deleteProfile);
@@ -43,7 +44,7 @@ app.get('/userProfile/:userId', userProfile);
 const swaggerDocument = YAML.load('./swagger.yaml');
 
 app.use(
-  "/api-docs",
+  "/api-doc",
   swaggerUi.serve,
   swaggerUi.setup(swaggerDocument)
 );

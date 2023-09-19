@@ -1,0 +1,148 @@
+openapi: 3.0.0
+info:
+  title: Sample API
+  description: Optional multiline or single-line description in HTML.
+  version: 0.1.9
+  contact:
+  email: tech@sharetrip.net
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+servers:
+  - url: http://localhost:3000/
+    description: Optional server description, e.g. Main (production) server
+tags:
+- name: Health
+  description: 'Website is running?'
+- name: Auth
+  description: 'User Authentication.'
+- name: InsertDataAuthPofileTable
+  description: 'row inserted on auth and profile table'
+paths:
+  /:
+    get:
+      tags:
+      - Health
+      summary: Returns applicatoin is running.
+      description: body resonse the text Auth crud assign working.
+      responses:
+        '200':    # status code
+          description: SUCCESS
+          content:
+            SUCCESS:
+              example: running Successfull.
+  /login:
+    post:
+      tags:
+      - Auth
+      summary: user login
+      description: This API is only for root users.
+      security:
+        - ApiKeyAuth: []
+          appEmail: []
+      requestBody:
+        description: Post json string like below
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/auth_login_body'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/auth_login_body'
+        required: true
+        
+      responses:
+        "200":
+          description: SUCCESS
+          content:
+            SUCCESS:
+              response: Login by email and pass true
+              example: Login by email and pass.
+        "400":
+          description: List of all kinds error
+          content:
+            E_MISSING_OR_INVALID_PARAMS:
+              example:
+                code: E_MISSING_OR_INVALID_PARAMS
+                message: "Invalid"
+                errors:
+                - "eror"
+        "500":
+          description: Internal Server Error
+          content:
+            EXCEPTION:
+              example:
+                code: EXCEPTION
+                message: UNKNOWN EXCEPTION
+                errors:
+                - UNKNOWN EXCEPTION
+  /insertDataAuthPofileTable:
+    post:
+      tags:
+      - InsertDataAuthPofileTable
+      summary: row will be inserted on Auth table and profile table.
+      description: This API is only used for auth table and profile table.
+      consumes:
+         - multipart/form-data
+      parameters:
+         - in: formData
+           name: upfile
+           type: file
+           
+           description: The file to upload.
+      responses:
+        "200":
+          description: SUCCESS
+          content:
+            SUCCESS:
+              response: auth profile table added
+              example: auth profile table added
+components:
+  schemas:
+    auth_login_body:
+      type: object
+      properties:
+        email:
+          type: string
+          example: test166@gmail.com
+          required: true
+        pass:
+          type: string
+          example: Test1234
+          required: true
+    auth_profile_schema:
+      type: object
+      properties:
+        email:
+          type: string
+          example: test166@gmail.com
+          required: true
+        pass:
+          type: string
+          example: Test1234
+          required: true
+        firstName:
+          type: string
+          example: Bepul new auth profile 1
+          required: true
+        lastName:
+          type: string
+          example: Hossain
+          required: true
+        Age:
+          type: number
+          example: 25
+          required: true
+        photo:
+          type: string
+          format: binary
+
+  securitySchemes:
+     ApiKeyAuth:        # arbitrary name for the security scheme
+      type: apiKey
+      in: header       # can be "header", "query" or "cookie"
+      name: accesstoken
+     appEmail:
+      type: apiKey
+      in: header
+      name: email
