@@ -1,0 +1,19 @@
+openapi: 3.0.1
+info:
+  title: ShareTrip Public APi V1
+  description: "Hotel public api"
+  contact:
+    email: tech@sharetrip.net
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 3.0.0
+servers:
+  - url: https://stg-b2b.api.sharetrip.net/api/
+tags:
+  - name: Auth
+    description: "User Authentication. "
+  - name: Hotel
+    description: "Hotel, Every endpoint needs to inject accessToken in header"
+paths:
+  /v1/auth/login:

@@ -1,10 +1,19 @@
-const world = 'world';
-console.log("============");
+function twoSum(nums: number[], target: number): number[]{
+  let obj:{[key: number]: number} = {};
 
-function hello(who: string = world): string {
-    console.log("lksjdk ");
+  for(let i:number = 0; i<nums.length; i++){
+
     
-  return `Hello ${who}! `;
+ 
+    if(obj[nums[i]]){
+      console.log(obj[target - nums[i]]);
+    }else{
+      obj[target - nums[i]] = nums[i];
+    }
+  }
+console.log(obj);
+
+  return [1, 3]
 }
 
-hello("lksjdk")
+console.log(twoSum([2, 7, 11, 15], 9));
