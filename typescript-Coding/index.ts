@@ -1,19 +1,21 @@
-function twoSum(nums: number[], target: number): number[]{
-  let obj:{[key: number]: number} = {};
+function twoSum(nums: number[], target: number): number[] {
 
-  for(let i:number = 0; i<nums.length; i++){
+  let obj: { [key: number]: number } = {};
 
-    
- 
-    if(obj[nums[i]]){
-      console.log(obj[target - nums[i]]);
+  let res: Array<number> = []
+  for (let i: number = 0; i < nums.length; i++) {
+    if(obj[nums[i]]!==undefined){
+      console.log(obj[nums[i]]);
+      res.push(obj[nums[i]]);
+      res.push(i);
+      break;
     }else{
-      obj[target - nums[i]] = nums[i];
+      
+      obj[target-nums[i]] = i;
     }
   }
-console.log(obj);
+  return res;
 
-  return [1, 3]
 }
 
-console.log(twoSum([2, 7, 11, 15], 9));
+console.log(twoSum([3, 2, 4], 6));
