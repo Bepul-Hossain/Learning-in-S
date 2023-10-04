@@ -5,7 +5,7 @@ project_directory="/home/bepul/Learning-in-S/auth-crud-assign"
 
 # Open the Node.js project in VSCode
 code "$project_directory"
-
+echo $project_directory
 # Wait for VSCode to open the project (adjust the sleep duration as needed)
 sleep 5
 
