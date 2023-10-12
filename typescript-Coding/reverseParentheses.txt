@@ -1,0 +1,72 @@
+function reverseParentheses(s: string): string {
+    let indexes:number[] = [];
+    for(let i=0; i<s.length; i++){
+        if(s[i]==='(' || s[i]===')'){
+            indexes.push(i);
+        }
+    }
+    let mid:number = indexes.length>>1;
+
+    let res = "";
+    let flag = true;
+    let flag2=true;
+    let count = 0;
+    let r = 0;
+    if(mid%2===0){
+        res=s.substring(indexes[mid-1]+1, indexes[mid]);
+        // mid--;
+        flag=false;
+        r++;
+        // count++;
+        console.log("===========");
+        
+    }
+
+    while (count<mid) {
+      
+
+        let leftLeftIdx:number = indexes[mid-1-count-r];
+        let leftRightIdx = indexes[mid-count-r];
+        let a1idx = indexes[mid-count+1-r]
+
+        let leftSubString = s.substring(leftLeftIdx+1, leftRightIdx).split("").reverse().join('');
+        // console.log(leftSubString);
+        
+        let s1 = s.substring(leftRightIdx+1, a1idx);
+        
+        let rightLeftIdx = indexes[mid+count-1+r];
+        let rightRightIdx = indexes[mid+count+r];
+        let a2idx = indexes[mid+count+1+r];
+        
+        let rightSubString = s.substring(rightLeftIdx+1, rightRightIdx).split("").reverse().join('');
+        
+        let s2 = s.substring(rightRightIdx+1, a2idx);
+        console.log(s2);
+        
+        if( flag2){
+            // s1="";
+            // s2="";
+            flag2=false;
+        }
+        if(flag){
+            s1="";
+            rightSubString = "";
+            s2="";
+            flag=false;
+        }
+        res = rightSubString+s1+ res+leftSubString+s2;
+        
+        
+        count=count+2;
+
+    }
+
+
+    console.log(indexes);
+    return res;
+    
+};
+
+
+console.log(reverseParentheses("(i(lo(ve(b(a)ng)la)desh))"));
+
