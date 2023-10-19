@@ -1,43 +1,57 @@
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 function canFinish(numCourses, prerequisites) {
+    var isExistCycle = function (source, graph, visited) {
+        var stack = [];
+        stack.push(source);
+        while (stack.length > 0) {
+            var current = stack.pop();
+            if (current !== undefined) {
+                if (visited[current] === true) {
+                    return true;
+                }
+                visited[current] = true;
+                for (var _i = 0, _a = graph[current]; _i < _a.length; _i++) {
+                    var neighbor = _a[_i];
+                    stack.push(neighbor);
+                }
+            }
+        }
+        return false;
+    };
     var n = prerequisites.length;
-    var hashMap = Object.fromEntries(Array.from({ length: n }, function (_, i) { return [i, []]; }));
-    // for (let i = 0; i < numCourses; i++) {
-    //     hashMap[i] = [];
-    // }
+    if (numCourses > n)
+        return false;
+    var hashMap = {};
+    for (var i = 0; i < numCourses; i++) {
+        hashMap[i] = [];
+    }
     for (var i = 0; i < n; i++) {
         var _a = prerequisites[i], firstValue = _a[0], secondValue = _a[1];
         if (hashMap[firstValue]) {
             hashMap[firstValue].push(secondValue);
         }
-        else {
-            hashMap[firstValue].push(secondValue);
-        }
     }
-    console.log(hashMap);
-    var set = new Set();
-    var dfs = function (graph, source) {
-        var stack = [source];
-        while (stack.length > 0) {
-            var current = stack.pop();
-            if (current !== undefined) {
-                console.log(current);
-                set.add(current);
-                graph[current];
-                for (var _i = 0, _a = graph[current]; _i < _a.length; _i++) {
-                    var neighbor = _a[_i];
-                    if (!set.has(neighbor)) {
-                        stack.push(neighbor);
-                    }
-                }
-            }
+    var initialVisited = {};
+    for (var key in hashMap) {
+        initialVisited[key] = false;
+    }
+    for (var key in hashMap) {
+        var visited = __assign({}, initialVisited);
+        if (isExistCycle(Number(key), hashMap, visited)) {
+            return true;
         }
-    };
-    dfs(hashMap, 0);
-    console.log(set);
-    if (set.size === n) {
-        return true;
     }
     return false;
 }
 ;
-console.log(canFinish(6, [[0, 1], [0, 2], [1, 3], [1, 4], [3, 4], [4, 1]]));
+console.log(canFinish(2, [[1, 0]]));

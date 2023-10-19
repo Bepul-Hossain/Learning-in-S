@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "tsc index.ts --watch & node --watch index.js"
+    "start": "tsc index.ts --watch & node --watch index.js",
+    "cycle": "tsc cycle-ditect.ts --watch & node --watch cycle-ditect.js"
   },
   "keywords": [],
   "author": "",
