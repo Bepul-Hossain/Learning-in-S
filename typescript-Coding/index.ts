@@ -1,54 +1,56 @@
-function canFinish(numCourses: number, prerequisites: number[][]): boolean {
+function isCycle(source: string, graph: { [key: string]: Array<number> }, visited: { [key: string]: number }, path: { [key: string]: number }, stack: Array<string>): boolean | undefined {
 
+    stack.push(source);
+    if (visited[source] === 1 && path[source] === 1) {
+        stack.pop();
+        return true;
+    }
+    visited[source] = 1;
+    path[source] = 1;
 
-    const isExistCycle = (source: number, graph: { [key: number]: Array<number> }, visited: { [key: string]: boolean }): boolean => {
-
-        let stack: Array<number> = [];
-        stack.push(source);
-    
-        while (stack.length > 0) {
-            let current: number | undefined = stack.pop();
-            if (current !== undefined) {
-                if (visited[current] === true) {
-                    return true;
-                }
-                visited[current] = true;
-                for (let neighbor of graph[current]) {
-                    stack.push(neighbor);
-                }
-            }
-        }
-    
-        return false;
+    for (let neighbor of graph[source]) {
+        let check = isCycle(neighbor, graph, visited, path, stack);
+        if (check !== undefined) return check;
     }
 
-    let n = prerequisites.length;
-    if (numCourses > n) return false;
+    path[source] = 0;
+    stack.pop();
+
+    if (stack.length === 0) return false;
+
+}
+
+function canFinish(numCourses: number, prerequisites: number[][]): boolean {
 
     let hashMap: { [key: number]: Array<number> } = {};
     for (let i = 0; i < numCourses; i++) {
         hashMap[i] = [];
     }
-    for (let i = 0; i < n; i++) {
+
+    for (let i = 0; i < prerequisites.length; i++) {
         let [firstValue, secondValue] = prerequisites[i];
         if (hashMap[firstValue]) {
             hashMap[firstValue].push(secondValue);
         }
     }
-    let initialVisited: { [key: number]: boolean } = {};
-    for (let key in hashMap) {
-        initialVisited[key] = false;
-    }
+    // console.log(hashMap);
 
-    for (let key in hashMap) {
-        let visited = { ...initialVisited }
+    const visited: { [key: string]: number } = {};
+    const path: { [key: string]: number } = {};
+    const stack: Array<string> = [];
 
-        if (isExistCycle(Number(key), hashMap, visited)) {
-            return true;
+    for (let source of Object.keys(hashMap)) {
+        if (visited[source] !== 1) {
+            isCycle(source, hashMap, visited, path, stack);
+        }
+
+        if (visited[source] === 1 && path[source] === 1) {
+            return false
         }
     }
 
-    return false;
+    return true;
 };
 
-console.log(canFinish(2, [[1,0]]));
+
+console.log(canFinish(5,[[1,2],[2,4],[4,3],[3,1]]));
