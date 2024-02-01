@@ -1,0 +1,26 @@
+{
+    "bookingId": "ST5885838",
+    "orderId": "21090djfjdkjksjdjlkjkj",
+    "customer": {
+        "name": "Asm Morabok Hossain",
+        "phone": "01656425562",
+        "email": "abc@gmail.com"
+    },
+    "orderItems": {
+        "origin": "Dhaka",
+        "destination": "Cox's Bazar",
+        "price": "945",
+        "serviceCharge": "0.00",
+        "grandTotalAmmount": "945.00",
+        "paidAmount": "945.00"
+    },
+    "paymentInfo": {
+        "cardType": "MASTER",
+        "cardNo": "15145455658532465465",
+        "bankApprovalCode": "5456536XXX88",
+        "gatewayCurrency": "BDT",
+        "PRN": "70VOE9IS",
+        "transactionDateTime": "10:23am, 23 Dec 2023",
+        "shippingAdress": "JCX Business Tower, Bashundhara R/A"
+    }
+}
