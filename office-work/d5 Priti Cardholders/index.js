@@ -1,5 +1,7 @@
 const fs = require('fs')
 const { TaggaClub } = require('./input/tagga.js');
+const CardNumber = require('./input/Priti Privilege Card Numbers for ShareTrip Configuration.json');
+console.log(CardNumber);
 // const { tagaClub } = require('./input/hello.js');
 
 // console.log(tagaClub);
