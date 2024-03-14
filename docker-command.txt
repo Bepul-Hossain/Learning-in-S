@@ -21,3 +21,8 @@ sudo docker ps
 redis --version
 sudo docker image ls
 sudo docker rmi ebee26a6f063
+
+
+docker hub Personal Access Token (PAT) => 
+Username: bepul
+Password: dckr_pat_YbT3fPTQ2iv6mSVrpmXtbsAJ_eU
