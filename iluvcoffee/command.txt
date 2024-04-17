@@ -1,0 +1,12 @@
+nest g co => generate controller
+nest g co module/abc => generate controller at src/module/abc directory
+nest g co module/abc --dry-run   => --dry-run generate simulated output for the command
+nest g s => generate service
+nest g module coffees => generate coffees module
+nest g class coffees/dto/create-coffee.dto --no-spec => generate dto class with no test file
+
+sudo apt install docker-compose => to install docker-compose
+sudo docker-compose up -d => run the docker-compose yml file
+sudo docker ps
+
+npx typeorm migration:create  migrations/CoffeeRefactor => run the migration using typeorm cli (Actual command not working)
