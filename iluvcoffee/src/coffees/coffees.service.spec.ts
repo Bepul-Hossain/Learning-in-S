@@ -6,11 +6,11 @@ import { Connection, Repository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { NotFoundException } from '@nestjs/common';
 
-type MockRepository<T = any> = Partial<Record<keyof Repository<T>, jest.Mock>>
+type MockRepository<T = any> = Partial<Record<keyof Repository<T>, jest.Mock>>;
 const createMockRepository = <T = any>(): MockRepository<T> => ({
   findOne: jest.fn(),
   create: jest.fn(),
-})
+});
 
 describe('CoffeesService', () => {
   let service: CoffeesService;
@@ -20,14 +20,20 @@ describe('CoffeesService', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         CoffeesService,
-        { provide: getRepositoryToken(Coffee), useValue: createMockRepository() },
-        { provide: getRepositoryToken(Flavor), useValue: createMockRepository() },
+        {
+          provide: getRepositoryToken(Coffee),
+          useValue: createMockRepository(),
+        },
+        {
+          provide: getRepositoryToken(Flavor),
+          useValue: createMockRepository(),
+        },
         { provide: Connection, useValue: {} },
       ],
     }).compile();
 
     service = module.get<CoffeesService>(CoffeesService);
-    coffeeRepository = module.get<MockRepository>(getRepositoryToken(Coffee))
+    coffeeRepository = module.get<MockRepository>(getRepositoryToken(Coffee));
   });
 
   it('should be defined', () => {
@@ -43,7 +49,7 @@ describe('CoffeesService', () => {
         const coffee = await service.findOne(coffeeId);
 
         expect(coffee).toEqual(expectedCoffee);
-      })
+      });
     });
 
     describe('Otherwise', () => {
@@ -53,15 +59,12 @@ describe('CoffeesService', () => {
         coffeeRepository.findOne.mockReturnValue(undefined);
 
         try {
-           await service.findOne(coffeeId);
-          
+          await service.findOne(coffeeId);
         } catch (err) {
           expect(err).toBeInstanceOf(NotFoundException);
           expect(err.message).toEqual(`Coffee #${coffeeId} not found`);
         }
-
-      })
+      });
     });
-
-  })
+  });
 });
