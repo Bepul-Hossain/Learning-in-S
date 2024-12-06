@@ -1,16 +1,15 @@
-const AWS = require("aws-sdk");
+const { SESClient, SendEmailCommand } = require("@aws-sdk/client-ses");
 require("dotenv").config();
-require("aws-sdk/lib/maintenance_mode_message").suppress = true;
 
-const AWS_CONFIG = {
-  accessKeyId: process.env.Access_key,
-  secretAccessKey: process.env.Secret_access_key,
+const SES_CONFIG = {
+  credentials: {
+    accessKeyId: process.env.Access_key,
+    secretAccessKey: process.env.Secret_access_key,
+  },
   region: process.env.AWS_SES_REGION,
 };
 
-console.log(AWS_CONFIG);
-
-const awsSes = new AWS.SES(AWS_CONFIG);
+const sesCLient = new SESClient(SES_CONFIG);
 
 const sendEmail = async (recipientEmail, name) => {
   let params = {
@@ -38,10 +37,11 @@ const sendEmail = async (recipientEmail, name) => {
   };
 
   try {
-    const res = await awsSes.sendEmail(params).promise();
+    const sendEmailCommand = new SendEmailCommand(params);
+    const res = await sesCLient.send(sendEmailCommand);
     console.log("Email has been sent!", res);
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 
